@@ -1,0 +1,227 @@
+unit U_etiquetas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls,
+  Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.DBActns, System.Actions,
+  Vcl.ActnList, Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnMan, Data.DB,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.Buttons, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, RxToolEdit, RxCurrEdit, ppPrnabl, ppClass, ppCtrls,
+  ppBarCod, ppDB, ppBands, ppCache, ppDesignLayer, ppParameter, ppProd,
+  ppReport, ppComm, ppRelatv, ppDBPipe;
+
+type
+  TF_etiquetas = class(TForm)
+    stb_produtos: TStatusBar;
+    page_produtos: TPageControl;
+    tab_consultar: TTabSheet;
+    tab_cadastrar: TTabSheet;
+    DBG_produtos: TDBGrid;
+    Image1: TImage;
+    Label1: TLabel;
+    Image2: TImage;
+    txt_busca: TEdit;
+    rg_buscar: TRadioGroup;
+    Label2: TLabel;
+    DBEdit1: TDBEdit;
+    ds_produtos_cad: TDataSource;
+    Label3: TLabel;
+    DBEdit2: TDBEdit;
+    Label4: TLabel;
+    DBEdit3: TDBEdit;
+    Label5: TLabel;
+    DBEdit4: TDBEdit;
+    Label6: TLabel;
+    DBEdit5: TDBEdit;
+    Label7: TLabel;
+    DBEdit6: TDBEdit;
+    Label8: TLabel;
+    DBEdit7: TDBEdit;
+    acm_produtos: TActionManager;
+    ac_insert: TDataSetInsert;
+    ac_delete: TDataSetDelete;
+    ac_editar: TDataSetEdit;
+    ac_ok: TDataSetPost;
+    ac_cancelar: TDataSetCancel;
+    btn_novo: TSpeedButton;
+    btn_editar: TSpeedButton;
+    btn_ok: TSpeedButton;
+    btn_cancelar: TSpeedButton;
+    btn_delete: TSpeedButton;
+    btn_gerarBarras: TSpeedButton;
+    Label9: TLabel;
+    Panel1: TPanel;
+    DBGrid1: TDBGrid;
+    btn_etiquetaImprimir: TSpeedButton;
+    btn_etiquetaCancelar: TSpeedButton;
+    btn_gerarEtiqueta: TSpeedButton;
+    TB_gerarEtiquetas: TFDTable;
+    TB_gerarEtiquetaseti_id: TFDAutoIncField;
+    TB_gerarEtiquetaseti_produto: TIntegerField;
+    SQL_listarEtiquetas: TFDQuery;
+    ds_listarEtiquetas: TDataSource;
+    txt_etiquetasQTD: TCurrencyEdit;
+    SQL_listarEtiquetaseti_id: TIntegerField;
+    SQL_listarEtiquetaseti_produto: TIntegerField;
+    SQL_listarEtiquetaspro_id: TIntegerField;
+    SQL_listarEtiquetaspro_nome: TStringField;
+    SQL_listarEtiquetaspro_barras: TStringField;
+    SQL_listarEtiquetaspro_ref: TStringField;
+    SQL_listarEtiquetaspro_custo: TFloatField;
+    SQL_listarEtiquetaspro_preco: TFloatField;
+    SQL_listarEtiquetaspro_preco_prazo: TFloatField;
+    SQL_listarEtiquetaspro_estoque: TIntegerField;
+    SQL_listarEtiquetasquant: TLargeintField;
+    SQL_etiquetasPrinter: TFDQuery;
+    ds_etiquetasPrinter: TDataSource;
+    SQL_etiquetasPrintereti_id: TFDAutoIncField;
+    SQL_etiquetasPrintereti_produto: TIntegerField;
+    SQL_etiquetasPrinterpro_id: TFDAutoIncField;
+    SQL_etiquetasPrinterpro_nome: TStringField;
+    SQL_etiquetasPrinterpro_barras: TStringField;
+    SQL_etiquetasPrinterpro_ref: TStringField;
+    SQL_etiquetasPrinterpro_custo: TFloatField;
+    SQL_etiquetasPrinterpro_preco: TFloatField;
+    SQL_etiquetasPrinterpro_preco_prazo: TFloatField;
+    SQL_etiquetasPrinterpro_estoque: TIntegerField;
+    ppDB_etiquetasPrinter: TppDBPipeline;
+    Report_etiquetasPrinter: TppReport;
+    ppHeaderBand1: TppHeaderBand;
+    ppDetailBand1: TppDetailBand;
+    ppFooterBand1: TppFooterBand;
+    ppColumnHeaderBand1: TppColumnHeaderBand;
+    ppColumnFooterBand1: TppColumnFooterBand;
+    ppDBText1: TppDBText;
+    ppLabel1: TppLabel;
+    ppDBText2: TppDBText;
+    ppLabel2: TppLabel;
+    ppDBText3: TppDBText;
+    ppDBBarCode1: TppDBBarCode;
+    ppLabel3: TppLabel;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure txt_buscaKeyPress(Sender: TObject; var Key: Char);
+    procedure btn_gerarEtiquetaClick(Sender: TObject);
+    procedure DBG_produtosDblClick(Sender: TObject);
+    procedure btn_gerarBarrasClick(Sender: TObject);
+    procedure btn_etiquetaImprimirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_etiquetas: TF_etiquetas;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm, U_funcoes;
+
+procedure TF_etiquetas.btn_gerarEtiquetaClick(Sender: TObject);
+var i: Integer;
+begin
+ //selecionar produtos para lançar
+ //verifico se digitei a QTD
+  if txt_etiquetasQTD.Value< 1 then
+begin
+  ShowMessage('Digite a quantidade de etiquetas a lançar');
+  txt_etiquetasQTD.SetFocus;
+  Exit;
+   end;
+  TB_gerarEtiquetas.Active:= true;
+
+  // executo o laço ate acabar a QTD
+  for I := StrToint (txt_etiquetasQTD.text) downto 1 do
+  begin
+  TB_gerarEtiquetas.Insert;
+  TB_gerarEtiquetaseti_produto.Value:= dm.SQL_produtospro_id.Value;
+   TB_gerarEtiquetas.post;
+  end;
+   // finalizo
+   ShowMessage('Foram geradas : '+ txt_etiquetasQTD.Text + '  etiquetas com sucesso');
+
+   // atualizo a listagem
+   SQL_listarEtiquetas.Close;
+   SQL_listarEtiquetas.Open;
+
+   //atualizo a impressao
+   SQL_etiquetasPrinter.Close;
+   SQL_etiquetasPrinter.Open;
+
+
+
+
+
+end;
+
+procedure TF_etiquetas.btn_etiquetaImprimirClick(Sender: TObject);
+begin
+Report_etiquetasPrinter.PrintReport;
+end;
+
+procedure TF_etiquetas.btn_gerarBarrasClick(Sender: TObject);
+begin
+  //gerar codigo barras
+  DBEdit2.Text := EAN13;
+end;
+
+procedure TF_etiquetas.DBG_produtosDblClick(Sender: TObject);
+begin
+  btn_gerarEtiqueta.Click
+end;
+
+procedure TF_etiquetas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+dm.SQL_produtos.Close;
+F_etiquetas:= nil;
+end;
+
+procedure TF_etiquetas.FormCreate(Sender: TObject);
+begin
+//   ativa a tb produtos
+  dm.TB_produtos.Active:= True;
+  //seto para iniciar na tela consulta
+   page_produtos.ActivePage:= tab_consultar;
+end;
+
+procedure TF_etiquetas.txt_buscaKeyPress(Sender: TObject; var Key: Char);
+begin
+   //fazendo a busca
+   if Key = #13 then
+    begin
+      if rg_buscar.ItemIndex= -1 then
+      begin
+        ShowMessage('Escolha um tipo de busca, por nome ou por barras');
+        exit
+      end;
+
+
+      with dm.SQL_produtos  do
+        begin
+           Close;
+           SQL.Clear;
+           SQL.Add('select * from produtos');
+                 //  verifico se busquei por nome ou barras
+                case rg_buscar.ItemIndex of
+                0: SQL.Add('where pro_nome like :nome');
+                1: SQL.Add('where pro_barras like :nome');
+                end;
+
+
+           ParamByName('nome').Value:= txt_busca.Text + '%';
+           Open;
+           if RecordCount= 0 then
+           ShowMessage('Produto não encontrado');
+
+        end;
+    end; //fim do key press
+end;
+
+end.

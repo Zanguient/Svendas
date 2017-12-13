@@ -1,0 +1,764 @@
+unit U_pdv;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask,  Vcl.Buttons, RxToolEdit, RxCurrEdit,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, RxLookup, System.Actions, Vcl.ActnList;
+
+type
+  TF_pdv = class(TForm)
+    StatusBar1: TStatusBar;
+    Panel_pdv_baixo: TPanel;
+    DBG_lancamento: TDBGrid;
+    txt_pro_barras: TEdit;
+    txt_pro_nome: TEdit;
+    txt_pro_preco: TCurrencyEdit;
+    txt_pro_prazo: TCurrencyEdit;
+    txt_pro_qtd: TCurrencyEdit;
+    btn_pro_add: TSpeedButton;
+    txt_total: TCurrencyEdit;
+    txt_total_prazo: TCurrencyEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    btn_venda_cancelar: TSpeedButton;
+    btn_iten_remove: TSpeedButton;
+    txt_cli_cod: TEdit;
+    txt_cli_nome: TEdit;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    btn_venda_iniciar: TSpeedButton;
+    Label7: TLabel;
+    group_botoes: TGroupBox;
+    btn_venda_gravar: TSpeedButton;
+    btn_venda_fechar: TSpeedButton;
+    btn_impressao: TSpeedButton;
+    SQL_verificaVenda: TFDQuery;
+    TB_pedidos: TFDTable;
+    TB_pedidosped_id: TFDAutoIncField;
+    TB_pedidosped_data: TDateField;
+    TB_pedidosped_codigo: TStringField;
+    TB_pedidosped_cliente: TIntegerField;
+    TB_pedidosped_usuario: TIntegerField;
+    TB_pedidosped_forma_pag: TIntegerField;
+    TB_pedidosped_fechado: TStringField;
+    TB_pedidosped_faturado: TStringField;
+    SQL_itensAdd: TFDQuery;
+    SQL_cancelaVenda: TFDQuery;
+    txt_formaPag: TRxDBLookupCombo;
+    Label8: TLabel;
+    SQL_estoque: TFDQuery;
+    ActionList1: TActionList;
+    iniciaVendas: TAction;
+    cancelaVenda: TAction;
+    fechaVenda: TAction;
+    imprimiVenda: TAction;
+    removeItem: TAction;
+    btn_fechaPdv: TButton;
+    botaoFechar: TAction;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure txt_cli_codKeyPress(Sender: TObject; var Key: Char);
+    procedure txt_pro_barrasChange(Sender: TObject);
+    procedure procedureBuscaProduto;
+    procedure procedureBloqueiaCampos;
+    procedure procedureliberaCampos;
+    procedure procedureIniciaVendas;
+    procedure procedureProdutosAdd;
+    procedure txt_pro_barrasKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure txt_pro_nomeKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure txt_pro_qtdKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+    procedure btn_venda_iniciarClick(Sender: TObject);
+    procedure txt_pro_qtdKeyPress(Sender: TObject; var Key: Char);
+    procedure btn_pro_addClick(Sender: TObject);
+    procedure procedureUpdateListagem;
+    procedure btn_iten_removeClick(Sender: TObject);
+    procedure btn_venda_fecharClick(Sender: TObject);
+    procedure btn_venda_cancelarClick(Sender: TObject);
+    procedure txt_cli_nomeKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure btn_impressaoClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btn_fechaPdvClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+  CODIGO_VENDA:string;
+  TOTAL_PEDIDO,TOTAL_PEDIDO_PRAZO: Double;
+    { Public declarations }
+  end;
+
+var
+  F_pdv: TF_pdv;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm, U_pdv_produtos, U_pdv_clientes;
+procedure TF_pdv.procedureUpdateListagem;
+begin
+ // aki eu atualizo a listagem dos item no pedido e valores
+  dm.SQL_listarPedidos.Close;
+  dm.SQL_listarPedidos.Open;
+  //pegando o total do pedido, prazo e a vista
+  dm.SQL_listarPedidos.First;
+  TOTAL_PEDIDO:= 0;
+  TOTAL_PEDIDO_PRAZO:= 0;
+  while not dm.SQL_listarPedidos.Eof do
+  begin
+  TOTAL_PEDIDO:= TOTAL_PEDIDO+ dm.SQL_listarPedidossubTotal.Value;
+  TOTAL_PEDIDO_PRAZO:= TOTAL_PEDIDO_PRAZO+ dm.SQL_listarPedidossubTotalPrazo.Value;
+  dm.SQL_listarPedidos.Next;
+  end;
+   //passo finalmente os valor para os campos
+    txt_total.Value:= TOTAL_PEDIDO;
+    txt_total_prazo.Value:= TOTAL_PEDIDO_PRAZO;
+end;
+
+procedure TF_pdv.procedureProdutosAdd;
+//adiciona o produto dentro do pedido
+var
+PRODUTO,QTD: Integer;
+PRECO,PRECO_PRAZO: Double;
+begin
+  //tento lançar o item
+if (txt_pro_barras.Text= '') and (txt_pro_nome.Text= '') then
+begin
+ ShowMessage('Precisa Selecionar um produto');
+ Exit;
+end;
+PRODUTO    := dm.SQL_produtospro_id.Value;
+QTD        := StrToInt(txt_pro_qtd.Text);
+PRECO      := dm.SQL_produtospro_preco.Value;
+PRECO_PRAZO:= dm.SQL_produtospro_preco_prazo.Value;
+
+// verifico se digitei uma QTD valida
+ if QTD <1 then
+ begin
+ ShowMessage('Digte uma QTD correta');
+ Exit;
+  //QTD :=1;
+ end;
+
+ //verifico se o produto ja existe nos itens
+   with SQL_itensAdd do
+   begin
+      Close;
+      SQL.Clear;
+      SQL.Add('select * from itens');
+      SQL.Add('where iten_produto = :produto');
+      SQL.Add('and iten_pedido = :pedido');
+      ParamByName('produto').Value := PRODUTO;
+      ParamByName('pedido').Value:= CODIGO_VENDA;
+      Open;
+   end;
+   //se o produto existe atualiza qtd
+   if SQL_itensAdd.RecordCount>0 then
+   begin
+    /// caso o produto exista update na qtd
+
+
+    with SQL_itensAdd do
+       begin
+        Close;
+        SQL.Clear;
+        SQL.Add('update itens set iten_qtd = iten_qtd + :qtd');
+        SQL.Add('where iten_produto = :produto AND iten_pedido = :pedido');
+        ParamByName('qtd').Value:= QTD;
+        ParamByName('pedido').Value:= CODIGO_VENDA;
+        ParamByName('produto').Value:= PRODUTO;
+        ExecSQL;
+        ShowMessage('Produto Adicionado');
+       end;
+   end
+   // fim do update
+   //se o produto nao exitir adiciona
+
+   else
+   begin
+     with SQL_itensAdd do
+   begin
+          Close;
+          SQL.Clear;
+          SQL.Add('insert into itens');
+          SQL.Add(' (iten_produto, iten_qtd, iten_pedido, iten_preco, iten_preco_prazo)');
+          SQL.Add(' values ( :produto,:qtd,:pedido,:preco,:preco_prazo)');
+          ParamByName('produto').Value    := PRODUTO;
+          ParamByName('qtd').Value        := QTD;
+          ParamByName('pedido').Value     := CODIGO_VENDA;
+          ParamByName('preco').Value      := PRECO;
+          ParamByName('preco_prazo').Value:= PRECO_PRAZO;
+          ExecSQL;
+          ShowMessage('Produto Adicionado');
+
+   end;
+
+   end;
+    // atualizo o estoque
+     with SQL_estoque do
+     begin
+      Close;
+      SQL.Clear;
+      SQL.Add('update produtos set pro_estoque = pro_estoque - :qtd');
+      SQL.Add('where pro_id = :produto');
+      ParamByName('qtd').Value:= QTD;
+      ParamByName('produto').Value:= PRODUTO;
+      ExecSQL;
+     end;
+
+   ///-------------
+   //volto a QTD para um novamente
+    txt_pro_qtd.Value:= 1;
+   // atualiza a listagens de itens no pedido
+    procedureUpdateListagem;
+
+end;
+
+
+procedure TF_pdv.procedureIniciaVendas;
+//inicia vendas--------------
+begin
+//desbloqueia os campos
+  procedureliberaCampos;
+
+  // verifico se nao tenho codigo de venda e crio um novo
+  if CODIGO_VENDA='' then
+  begin
+  // seto valor codigo venda
+  CODIGO_VENDA:= FormatDateTime('yymmdd',date)+ FormatDateTime('hhmmss',time);
+  end;
+  F_pdv.Caption:='iniciando uma venda'+ CODIGO_VENDA;
+  // verificando se existe a venda
+  with SQL_verificaVenda do
+  begin
+        Close;
+        SQL.Clear;
+        SQL.Add('select * from pedidos');
+        SQL.Add(' where ped_codigo = :codigo');
+        ParamByName('codigo').Value := CODIGO_VENDA;
+        Open;
+  end;
+  //se nao existe uma venda inicia uma nova
+  if SQL_verificaVenda.RecordCount= 0 then
+  begin
+    TB_pedidos.Active:= True;
+    TB_pedidos.Append;
+    TB_pedidosped_data.Value        := Date;
+    TB_pedidosped_codigo.AsString   := CODIGO_VENDA;
+    TB_pedidosped_cliente.Value     := dm.Sql_clientescli_id.Value;
+    TB_pedidosped_usuario.Value     := dm.SQL_usuariosuser_id.Value;
+    TB_pedidosped_fechado.AsString  := 'NAO';
+    TB_pedidosped_faturado.AsString := 'NAO';
+    TB_pedidosped_forma_pag.Value:= dm.SQL_formaPagforma_id.Value;
+    TB_pedidos.Post;
+  end;
+   //executo a sql de lista pedido para filtrar atual
+    with dm.SQL_listarPedidos do
+    begin
+     Close;
+     SQL.Clear;
+     SQL.Add('select * from view_listar_pedido');
+     SQL.Add('where ped_codigo = :codigo');
+     ParamByName('codigo').Value:= CODIGO_VENDA;
+     Open;
+    end;
+   //---------------
+end;
+
+procedure TF_pdv.procedureLiberaCampos;
+//libera o campos se eu nao selecionar vendas
+begin
+  txt_pro_barras.Enabled:=     true;
+  txt_pro_nome.Enabled  :=     true;
+  txt_pro_qtd.Enabled   :=     true;
+  DBG_lancamento.Enabled:=     true;
+  group_botoes.Enabled  :=     true;
+  btn_pro_add.Enabled   :=     true;
+  end;
+
+ procedure TF_pdv.FormCreate(Sender: TObject);
+begin
+dm.SQL_listarPedidos.Close;
+//abro o SQL de formas de pagamentos
+ dm.SQL_formaPag.Active := True;
+ //inicio form PDV
+ procedureBloqueiaCampos;
+end;
+
+
+procedure TF_pdv.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+if Key = VK_F9 then
+btn_venda_iniciar.Click;
+end;
+
+procedure TF_pdv.procedureBloqueiaCampos;
+//bloqueia o campos se eu nao selecionar vendas
+begin
+  txt_pro_barras.Enabled := False;
+  txt_pro_nome.Enabled   := False;
+  txt_pro_qtd.Enabled    := False;
+  DBG_lancamento.Enabled := False;
+  group_botoes.Enabled   := False;
+  btn_pro_add.Enabled    := False;
+end;
+
+
+
+procedure TF_pdv.procedureBuscaProduto;
+begin
+ //procedimento buscar produto
+  txt_pro_qtd.Value:= 1;
+
+ if Length (txt_pro_barras.Text)= 13then
+    begin
+       with dm.SQL_produtos  do
+        begin
+           Close;
+           SQL.Clear;
+           SQL.Add('select * from produtos');
+           SQL.Add('where pro_barras = :barras');
+                 //  verifico se busquei por nome ou barras
+
+
+
+           ParamByName('barras').Value:= txt_pro_barras.Text;
+           Open;
+           // caso  exista o produto posiciona nos campos
+           if RecordCount= 1 then
+           begin
+           txt_pro_nome.Text   := dm.SQL_produtospro_nome.AsString;
+           txt_pro_preco.Value := dm.SQL_produtospro_preco.Value;
+           txt_pro_prazo.Value := dm.SQL_produtospro_preco_prazo.Value;
+           txt_pro_qtd.SetFocus;
+            end
+           else
+           begin
+            ShowMessage('Produto não encontrado');
+            txt_pro_barras.Clear;
+            txt_pro_nome.Clear;
+            txt_pro_preco.Clear;
+            txt_pro_prazo.Clear;
+           end;
+         end;
+
+    end;
+end;
+
+procedure TF_pdv.btn_impressaoClick(Sender: TObject);
+begin
+  // impresao do pedido da venda
+    dm.Report_reciboPedido.PrintReport;
+end;
+
+procedure TF_pdv.btn_iten_removeClick(Sender: TObject);
+var
+PRODUTO,QTD,QTD_EXISTENTE: Double;
+begin
+ //procedimento para remover o iten do pedido
+   PRODUTO:= dm.SQL_listarPedidositen_id.Value;
+   QTD_EXISTENTE := dm.SQL_listarPedidositen_qtd.Value;
+     QTD:= 1;
+   // verifico se tem mais de uma unidade lançada
+   if QTD_EXISTENTE >1  then
+   begin
+        try
+        QTD:= StrToInt(InputBox('Digite a quantidade','Quanto deseja remover','1'));
+        except
+        ShowMessage('Valor invalido');
+        Exit;
+       end;
+   end;
+   if QTD> QTD_EXISTENTE then
+   begin
+   ShowMessage('Não pode remover mais do que existe');
+   Exit;
+    end;
+   //executo a sql de remoção
+    with SQL_itensAdd do
+       begin
+        Close;
+        SQL.Clear;
+        SQL.Add('update itens set iten_qtd = iten_qtd - :qtd');
+        SQL.Add('where iten_id = :produto AND iten_pedido = :pedido');
+        ParamByName('qtd').Value:= QTD;
+        ParamByName('pedido').Value:= CODIGO_VENDA;
+        ParamByName('produto').Value:= PRODUTO;
+        ExecSQL;
+
+end;
+ //atualizo o estoque
+ with SQL_estoque do
+     begin
+      Close;
+      SQL.Clear;
+      SQL.Add('update produtos set pro_estoque = pro_estoque + :qtd');
+      SQL.Add('where pro_id = :produto');
+      ParamByName('qtd').Value:= QTD;
+      ParamByName('produto').Value:= dm.SQL_listarPedidositen_produto.Value;
+      ExecSQL;
+     end;
+
+//atualizo a listagem dos itens
+
+ procedureUpdateListagem;
+ ShowMessage('Produto Alterado!');
+
+ //verifico se existe alguma QTD = 0 e deleto
+       with SQL_itensAdd do
+       begin
+        Close;
+        SQL.Clear;
+        SQL.Add('delete from itens');
+        SQL.Add('where iten_qtd = 0');
+        ExecSQL;
+        end;
+//atualizo a listagem dos itens
+
+procedureUpdateListagem;
+end;
+procedure TF_pdv.btn_pro_addClick(Sender: TObject);
+begin
+    // kel action
+     btn_iten_remove.Enabled:= True;
+     removeItem.Enabled:= True;
+    imprimiVenda.Enabled:=true;
+    fechaVenda.Enabled:= true;
+
+    ///---------
+//chama a procedure add produtos
+ procedureProdutosAdd;
+end;
+
+procedure TF_pdv.btn_venda_cancelarClick(Sender: TObject);
+begin
+ // cancelando um pedido que esta em andamento
+
+   //atualizando as informaçoes dos itens
+ procedureUpdateListagem;
+  //Verifico se existem itens a finalizar
+      if dm.SQL_listarPedidos.RecordCount< 1 then
+      begin
+        ShowMessage('Nao existe itens nos pedido');
+        Exit;
+      end;
+      //aki eu volto para o estoque cada item
+       dm.SQL_listarPedidos.First;
+      while not dm.SQL_listarPedidos.Eof do
+      begin
+       //atualizo o estoque
+     with SQL_estoque do
+     begin
+      Close;
+      SQL.Clear;
+      SQL.Add('update produtos set pro_estoque = pro_estoque + :qtd');
+      SQL.Add('where pro_id = :produto');
+      ParamByName('qtd').Value:= dm.SQL_listarPedidositen_qtd.Value;
+      ParamByName('produto').Value:= dm.SQL_listarPedidositen_produto.Value;
+      ExecSQL;
+     end;
+      dm.SQL_listarPedidos.Next;
+      end;
+      //--------
+
+
+
+ //apago os itens
+       with SQL_cancelaVenda do
+       begin
+       Close;
+       SQL.Clear;
+       SQL.Add('delete from itens');
+       SQL.Add('where iten_pedido = :pedido');
+       ParamByName('pedido').Value := CODIGO_VENDA;
+       ExecSQL;
+
+       //removo pedido
+         with SQL_cancelaVenda do
+         begin
+         Close;
+         SQL.Clear;
+         SQL.Add('delete from pedidos');
+         SQL.Add('where ped_codigo = :pedido ');
+         ParamByName('pedido').Value := CODIGO_VENDA;
+         ExecSQL;
+         end;
+       end;
+       ShowMessage('Pedido Cancelado');
+
+    //seto a query pra limpar a listagem
+     CODIGO_VENDA:= '0000000';
+     //executo a sql de lista pedido para filtrar atual
+    with dm.SQL_listarPedidos do
+    begin
+     Close;
+     SQL.Clear;
+     SQL.Add('select * from view_listar_pedido');
+     SQL.Add('where ped_codigo = :codigo');
+     ParamByName('codigo').Value:= CODIGO_VENDA;
+     Open;
+    end;
+   //---------------
+
+    //fecho a SQL listagem
+    dm.SQL_listarPedidos.Close;
+    //fecho todos os campos
+    procedureBloqueiaCampos;
+    //kel colocou
+    btn_iten_remove.Enabled:= false;
+     removeItem.Enabled:= false;
+    txt_total.Value:= 0.00;
+    txt_total_prazo.Value:= 0.00;
+    txt_pro_barras.Text:= '';
+    txt_pro_nome.Text:= '';
+    txt_pro_preco.Value:= 0.00;
+    txt_pro_prazo.Value:= 0.00;
+    txt_cli_nome.Text:= '';
+    btn_venda_iniciar.Enabled:= False;
+    btn_venda_cancelar.Enabled:= False;
+    //action
+    iniciaVendas.Enabled:= False;
+    imprimiVenda.Enabled:=False;
+    fechaVenda.Enabled:= False;
+    //----------
+    txt_cli_cod.Text:='';
+    txt_formaPag.Value:= '';
+    txt_cli_cod.SetFocus;
+
+
+
+end;
+
+
+procedure TF_pdv.btn_venda_fecharClick(Sender: TObject);
+begin
+ //fechar a venda de vez
+
+ //atualizando as informaçoes dos itens
+ procedureUpdateListagem;
+  //Verifico se existem itens a finalizar
+      if dm.SQL_listarPedidos.RecordCount< 1 then
+      begin
+        ShowMessage('Nao existe itens nos pedido');
+        Exit;
+      end;
+
+ // atualizo os dados e fecho a venda
+    TB_pedidos.Active:= True;
+
+    TB_pedidos.Locate('ped_codigo',CODIGO_VENDA,[]);
+
+    TB_pedidos.edit;
+    TB_pedidosped_data.Value        := Date;
+    TB_pedidosped_codigo.AsString   := CODIGO_VENDA;
+    TB_pedidosped_cliente.Value     := dm.Sql_clientescli_id.Value;
+    TB_pedidosped_usuario.Value     := dm.SQL_usuariosuser_id.Value;
+    TB_pedidosped_fechado.AsString  := 'SIM';
+    TB_pedidosped_faturado.AsString := 'NAO';
+    TB_pedidosped_forma_pag.Value:= dm.SQL_formaPagforma_id.Value;
+    TB_pedidos.Post;
+    //-------
+    ShowMessage('Pedido finalizado com sucesso');
+
+    //faz a impressao do pedido
+     btn_impressao.Click;
+
+    //seto a query pra limpar a listagem
+     CODIGO_VENDA:= '0000000';
+     //executo a sql de lista pedido para filtrar atual
+    with dm.SQL_listarPedidos do
+    begin
+     Close;
+     SQL.Clear;
+     SQL.Add('select * from view_listar_pedido');
+     SQL.Add('where ped_codigo = :codigo');
+     ParamByName('codigo').Value:= CODIGO_VENDA;
+     Open;
+    end;
+   //---------------
+
+    //fecho a SQL listagem
+    dm.SQL_listarPedidos.Close;
+    //fecho todos os campos
+    procedureBloqueiaCampos;
+
+    
+     //kel
+     btn_iten_remove.Enabled:= false;
+     removeItem.Enabled:= false;
+    txt_total.Value:= 0.00;
+    txt_total_prazo.Value:= 0.00;
+    txt_pro_barras.Text:= '';
+    txt_pro_nome.Text:= '';
+    txt_pro_preco.Value:= 0.00;
+    txt_pro_prazo.Value:= 0.00;
+    txt_cli_nome.Text:= '';
+    btn_venda_iniciar.Enabled:= False;
+    btn_venda_cancelar.Enabled:= False;
+    //action
+    iniciaVendas.Enabled:= False;
+    imprimiVenda.Enabled:=False;
+    fechaVenda.Enabled:= False;
+    txt_formaPag.Value:= '';
+    txt_cli_cod.Text:='';
+    txt_cli_cod.SetFocus;
+end;
+
+procedure TF_pdv.btn_venda_iniciarClick(Sender: TObject);
+begin
+
+//inicia a venda chamando procedimento
+  if (txt_cli_cod.Text='') and (txt_cli_nome.Text='') then
+begin
+ShowMessage('Para iniciar uma venda, precisa selecionar o cliente');
+Exit;
+
+end;
+// verifico se selecionou a forma de pagamento
+   if txt_formaPag.Text='' then
+   begin
+   ShowMessage('Voce Precisa Selecionar a forma de pagamento');
+   txt_formaPag.SetFocus;
+   Exit;
+
+   end;
+   procedureIniciaVendas;
+   txt_pro_barras.SetFocus;
+
+end;
+
+
+
+procedure TF_pdv.btn_fechaPdvClick(Sender: TObject);
+begin
+//fecho a tela de Pdv
+     F_pdv.Close;
+end;
+
+procedure TF_pdv.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+
+ // vejo se existe itens listado
+ procedureUpdateListagem;
+ if (dm.SQL_listarPedidos.RecordCount> 0) and (CODIGO_VENDA<>'') then
+ begin
+ ShowMessage('Precisa fechar ou cancelar a venda antes de sair');
+ Action:= caNone;
+ Exit;
+ end;
+
+//quando fechar o form
+dm.SQL_listarPedidos.Close;
+CODIGO_VENDA:= '';
+dm.SQL_produtos.Close;
+F_pdv:= nil;
+end;
+
+procedure TF_pdv.txt_cli_codKeyPress(Sender: TObject; var Key: Char);
+begin
+ if Key= #13 then
+ begin
+   with dm.Sql_clientes  do
+  begin
+    Close;
+    SQL.Clear;
+    sql.Add('Select * from clientes');
+    SQL.Add('where cli_id = :id');
+    ParamByName('id').Value:= txt_cli_cod.Text;
+    Open;
+    if RecordCount= 1 then
+    begin
+    txt_cli_nome.Text:= dm.Sql_clientescli_nome.AsString;
+    // kel colocou
+    iniciaVendas.Enabled:= True;
+    btn_venda_iniciar.Enabled:= True;
+    btn_venda_cancelar.Enabled:= True;
+    txt_formaPag.SetFocus;
+    end
+    else
+    begin
+    ShowMessage('Cliente nao econtrado');
+    btn_venda_iniciar.Enabled:= false;
+    btn_venda_cancelar.Enabled:= false;
+    end;
+  end;
+ end;
+end;
+
+procedure TF_pdv.txt_cli_nomeKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+ //açoes por teclas
+  case key of
+  VK_F2:
+  begin
+   F_pdv_clientes:= TF_pdv_clientes.Create(self);
+   F_pdv_clientes.ShowModal;
+  end;
+  end;
+end;
+
+procedure TF_pdv.txt_pro_barrasChange(Sender: TObject);
+begin
+ // verificar se teve mudanças no campo
+ // executar procedure e buscar produto
+    procedureBuscaProduto;
+    end;
+
+
+procedure TF_pdv.txt_pro_barrasKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+ case key of
+  VK_F2:
+    begin
+     F_pdv_produtos:= TF_pdv_produtos.Create(self);
+     F_pdv_produtos.ShowModal;
+    end;
+ end;
+end;
+
+procedure TF_pdv.txt_pro_nomeKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+case key of
+  VK_F2:
+    begin
+     F_pdv_produtos:= TF_pdv_produtos.Create(self);
+     F_pdv_produtos.ShowModal;
+    end;
+ end;
+end;
+
+procedure TF_pdv.txt_pro_qtdKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+case key of
+  VK_F2:
+    begin
+     F_pdv_produtos:= TF_pdv_produtos.Create(self);
+     F_pdv_produtos.ShowModal;
+    end;
+ end;
+end;
+
+procedure TF_pdv.txt_pro_qtdKeyPress(Sender: TObject; var Key: Char);
+begin
+   if Key= #13 then
+   btn_pro_add.Click;
+
+end;
+
+end.

@@ -1,0 +1,109 @@
+unit U_pdv_produtos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Buttons;
+
+type
+  TF_pdv_produtos = class(TForm)
+    DBG_listar_produtos: TDBGrid;
+    txt_buscar: TEdit;
+    btn_ok: TSpeedButton;
+    Label1: TLabel;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure txt_buscarKeyPress(Sender: TObject; var Key: Char);
+    procedure DBG_listar_produtosKeyPress(Sender: TObject; var Key: Char);
+    procedure DBG_listar_produtosDblClick(Sender: TObject);
+    procedure btn_okClick(Sender: TObject);
+    procedure DBG_listar_produtosKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_pdv_produtos: TF_pdv_produtos;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm, U_pdv;
+
+procedure TF_pdv_produtos.btn_okClick(Sender: TObject);
+begin
+
+   //pega o produto da grid e pasar tela pdv
+   F_pdv.txt_pro_barras.Text:= dm.SQL_produtospro_barras.AsString;
+   F_pdv.btn_pro_add.Click;
+   F_pdv_produtos.Close;
+
+
+
+
+end;
+
+procedure TF_pdv_produtos.DBG_listar_produtosDblClick(Sender: TObject);
+begin
+  btn_ok.Click;
+
+end;
+
+procedure TF_pdv_produtos.DBG_listar_produtosKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+ if Key= VK_ESCAPE then
+ txt_buscar.SetFocus;
+
+end;
+
+procedure TF_pdv_produtos.DBG_listar_produtosKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if Key= #13 then
+ btn_ok.Click;
+
+end;
+
+procedure TF_pdv_produtos.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  F_pdv_produtos:= nil;
+end;
+
+procedure TF_pdv_produtos.txt_buscarKeyPress(Sender: TObject; var Key: Char);
+begin
+  //fazendo a busca
+   if Key = #13 then
+    begin
+
+
+      with dm.SQL_produtos  do
+        begin
+           Close;
+           SQL.Clear;
+           SQL.Add('select * from produtos');
+           SQL.Add('where pro_nome like :nome');
+
+
+
+
+           ParamByName('nome').Value:= txt_buscar.Text + '%';
+           Open;
+           if RecordCount> 0 then
+           begin
+           DBG_listar_produtos.SetFocus;
+           end
+              else
+              begin
+              ShowMessage('Produto não encontrado');
+              end;
+        end;
+    end; //fim do key press
+end;
+
+end.

@@ -1,0 +1,92 @@
+unit U_caixa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, RxToolEdit,
+  RxCurrEdit, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TF_caixa = class(TForm)
+    DBG_listarCaixa: TDBGrid;
+    txt_caixaHoje: TCurrencyEdit;
+    Label1: TLabel;
+    txt_caixaInicial: TCurrencyEdit;
+    Label2: TLabel;
+    btn_abreCaixa: TSpeedButton;
+    lb_caixa: TLabel;
+    TB_abreCaixa: TFDTable;
+    TB_abreCaixacaixa_id: TFDAutoIncField;
+    TB_abreCaixacaixa_data_abre: TDateField;
+    TB_abreCaixacaixa_valor: TFloatField;
+    TB_abreCaixacaixa_data_fecha: TDateField;
+    TB_abreCaixacaixa_inicial: TFloatField;
+    TB_abreCaixacaixa_usuario: TIntegerField;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure btn_abreCaixaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_caixa: TF_caixa;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm;
+
+procedure TF_caixa.btn_abreCaixaClick(Sender: TObject);
+begin
+  //abro o caixa do dia
+   TB_abreCaixa.Active:= True;
+   TB_abreCaixa.Insert;
+   TB_abreCaixacaixa_data_abre.Value:= date;
+   TB_abreCaixacaixa_valor.Value:= 0;
+   TB_abreCaixacaixa_inicial.Value:= txt_caixaInicial.Value;
+   TB_abreCaixacaixa_usuario.Value:= dm.SQL_usuariosuser_id.Value;
+   TB_abreCaixa.Post;
+    // travo o botao e o valor caixa inicial
+
+   btn_abreCaixa.Enabled:= False;
+   txt_caixaInicial.Enabled:= false;
+
+ dm.SQL_caixa.Close;
+ dm.SQL_caixa.open;
+end;
+
+procedure TF_caixa.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+F_caixa:= nil;
+end;
+
+procedure TF_caixa.FormCreate(Sender: TObject);
+begin
+ // se o caixa esta vazio
+     //se o caixa nao esta aberto sai da fatura
+  dm.CaixaVerifica;
+  if dm.CAIXA_ABERTO= false then
+
+  begin
+   lb_caixa.Caption:= 'O caixa nao foi Aberto';
+   btn_abreCaixa.Enabled:= True;
+   txt_caixaInicial.Enabled:= True;
+  end
+  else
+  begin
+  lb_caixa.Caption:= 'O caixa esta Aberto';
+   btn_abreCaixa.Enabled:= False;
+   txt_caixaInicial.Enabled:= false;
+  end;
+
+end;
+
+end.

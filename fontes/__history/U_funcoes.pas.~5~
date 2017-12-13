@@ -1,0 +1,15 @@
+unit U_funcoes;
+
+interface
+ //declara funçoes e variaveis
+ function TestarPermissao (NOME_FORM: String):boolean;
+implementation
+Uses vcl.dialogs;
+ //função que testa a permissao do usuario
+   function TestarPermissao (NOME_FORM: String):boolean;
+     begin
+      result:= true;
+      if Result= false then
+      showmessage ('Acesso não Permitido')
+     end;
+end.

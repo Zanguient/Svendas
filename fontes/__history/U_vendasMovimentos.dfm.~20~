@@ -1,0 +1,636 @@
+object F_vendasMovimentos: TF_vendasMovimentos
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Movimenta'#231#227'o de vendas'
+  ClientHeight = 419
+  ClientWidth = 728
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Shape1: TShape
+    Left = 7
+    Top = 296
+    Width = 122
+    Height = 91
+    Brush.Style = bsCross
+    Pen.Style = psClear
+  end
+  object Label1: TLabel
+    Left = 199
+    Top = 374
+    Width = 81
+    Height = 18
+    Caption = 'Total a vista'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 467
+    Top = 374
+    Width = 87
+    Height = 18
+    Caption = 'Total a Prazo'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object btn_imprimirPedido: TSpeedButton
+    Left = 560
+    Top = 385
+    Width = 160
+    Height = 34
+    Caption = 'Detalhe Pedido Selecionado'
+    Flat = True
+    OnClick = btn_imprimirPedidoClick
+  end
+  object btn_gerarRelatorio: TSpeedButton
+    Left = 599
+    Top = 235
+    Width = 121
+    Height = 34
+    Caption = 'Gerar Relatorio'
+    Flat = True
+    OnClick = btn_gerarRelatorioClick
+  end
+  object Label8: TLabel
+    Left = 199
+    Top = 239
+    Width = 183
+    Height = 19
+    Caption = 'Total do Geral do Periodo'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label9: TLabel
+    Left = 313
+    Top = 368
+    Width = 141
+    Height = 18
+    Caption = 'Valor de cada periodo'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clNavy
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 0
+    Width = 193
+    Height = 419
+    Align = alLeft
+    BevelOuter = bvLowered
+    BevelWidth = 2
+    Color = 15329745
+    ParentBackground = False
+    TabOrder = 6
+    object Bevel1: TBevel
+      Left = 0
+      Top = 111
+      Width = 193
+      Height = 122
+    end
+    object Label3: TLabel
+      Left = 0
+      Top = 30
+      Width = 72
+      Height = 13
+      Caption = 'Digite o Cliente'
+    end
+    object Label4: TLabel
+      Left = 0
+      Top = 73
+      Width = 91
+      Height = 13
+      Caption = 'Digite o Cod Venda'
+    end
+    object Label5: TLabel
+      Left = 144
+      Top = 111
+      Width = 41
+      Height = 13
+      Caption = 'Por data'
+    end
+    object Label7: TLabel
+      Left = 112
+      Top = 155
+      Width = 17
+      Height = 13
+      Caption = 'Ate'
+    end
+    object btn_buscarData: TSpeedButton
+      Left = 7
+      Top = 201
+      Width = 179
+      Height = 32
+      Caption = 'OK'
+      Flat = True
+      OnClick = btn_buscarDataClick
+    end
+    object btn_listarTodos: TSpeedButton
+      Left = 103
+      Top = 0
+      Width = 90
+      Height = 22
+      Caption = 'Mostrar Todos'
+      Flat = True
+      OnClick = btn_listarTodosClick
+    end
+    object txt_buscarCliente: TEdit
+      Left = 0
+      Top = 49
+      Width = 186
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 0
+      OnKeyPress = txt_buscarClienteKeyPress
+    end
+    object txt_buscarCodVenda: TEdit
+      Left = 0
+      Top = 84
+      Width = 185
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 1
+      OnKeyPress = txt_buscarCodVendaKeyPress
+    end
+    object data_ini: TDateTimePicker
+      Left = 0
+      Top = 130
+      Width = 185
+      Height = 21
+      Date = 42478.070519745370000000
+      Time = 42478.070519745370000000
+      TabOrder = 2
+    end
+    object data_fim: TDateTimePicker
+      Left = 0
+      Top = 174
+      Width = 185
+      Height = 21
+      Date = 42478.070781608810000000
+      Time = 42478.070781608810000000
+      TabOrder = 3
+    end
+  end
+  object Panel1: TPanel
+    Left = 192
+    Top = 0
+    Width = 536
+    Height = 43
+    Caption = 'Gerenciamento de Vendas'
+    TabOrder = 0
+  end
+  object DBG_listarLancamentos: TDBGrid
+    Left = 192
+    Top = 49
+    Width = 528
+    Height = 184
+    DataSource = ds_listarLancamentos
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clNavy
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ParentFont = False
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnCellClick = DBG_listarLancamentosCellClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'cli_nome'
+        Title.Caption = 'Cliente'
+        Width = 169
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ped_data'
+        Title.Caption = 'Data'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'forma_nome'
+        Title.Caption = 'Forma Pag'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clNavy
+        Title.Font.Height = -11
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = []
+        Width = 113
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ped_codigo'
+        Title.Caption = 'Cod'
+        Width = 88
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ped_fechado'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clPurple
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        Title.Caption = 'Fechado'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ped_faturado'
+        Title.Caption = 'Faturado'
+        Visible = True
+      end
+      item
+        Expanded = False
+        Visible = True
+      end>
+  end
+  object txt_valorVista: TCurrencyEdit
+    Left = 199
+    Top = 392
+    Width = 121
+    Height = 26
+    Color = 12582911
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clNavy
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+  end
+  object txt_valorPrazo: TCurrencyEdit
+    Left = 433
+    Top = 392
+    Width = 121
+    Height = 26
+    Color = 12582911
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clNavy
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+  end
+  object txt_totalPeriodo: TCurrencyEdit
+    Left = 388
+    Top = 239
+    Width = 121
+    Height = 31
+    Color = clInfoBk
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
+  end
+  object DBGrid1: TDBGrid
+    Left = 199
+    Top = 276
+    Width = 521
+    Height = 77
+    DataSource = dm.ds_listarPedidos
+    TabOrder = 5
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'pro_nome'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'subTotal'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'subTotalPrazo'
+        Visible = True
+      end>
+  end
+  object TB_faturarPedidos: TFDTable
+    IndexFieldNames = 'ped_id'
+    Connection = dm.conexao
+    UpdateOptions.UpdateTableName = 'svendas.pedidos'
+    TableName = 'svendas.pedidos'
+    Left = 472
+    Top = 64
+    object TB_faturarPedidosped_id: TFDAutoIncField
+      FieldName = 'ped_id'
+      Origin = 'ped_id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object TB_faturarPedidosped_data: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_data'
+      Origin = 'ped_data'
+    end
+    object TB_faturarPedidosped_codigo: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_codigo'
+      Origin = 'ped_codigo'
+    end
+    object TB_faturarPedidosped_cliente: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_cliente'
+      Origin = 'ped_cliente'
+    end
+    object TB_faturarPedidosped_usuario: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_usuario'
+      Origin = 'ped_usuario'
+    end
+    object TB_faturarPedidosped_forma_pag: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_forma_pag'
+      Origin = 'ped_forma_pag'
+    end
+    object TB_faturarPedidosped_fechado: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_fechado'
+      Origin = 'ped_fechado'
+      FixedChar = True
+      Size = 3
+    end
+    object TB_faturarPedidosped_faturado: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_faturado'
+      Origin = 'ped_faturado'
+      FixedChar = True
+      Size = 3
+    end
+  end
+  object SQL_listarLancamentos: TFDQuery
+    Connection = dm.conexao
+    SQL.Strings = (
+      'select * from view_listar_pedido'
+      'GROUP by ped_codigo')
+    Left = 312
+    Top = 65528
+    object SQL_listarLancamentosped_id: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_id'
+      Origin = 'ped_id'
+    end
+    object SQL_listarLancamentosped_data: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_data'
+      Origin = 'ped_data'
+    end
+    object SQL_listarLancamentosped_codigo: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_codigo'
+      Origin = 'ped_codigo'
+    end
+    object SQL_listarLancamentosped_cliente: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_cliente'
+      Origin = 'ped_cliente'
+    end
+    object SQL_listarLancamentosped_usuario: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_usuario'
+      Origin = 'ped_usuario'
+    end
+    object SQL_listarLancamentosped_forma_pag: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_forma_pag'
+      Origin = 'ped_forma_pag'
+    end
+    object SQL_listarLancamentosped_fechado: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_fechado'
+      Origin = 'ped_fechado'
+      FixedChar = True
+      Size = 3
+    end
+    object SQL_listarLancamentosped_faturado: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_faturado'
+      Origin = 'ped_faturado'
+      FixedChar = True
+      Size = 3
+    end
+    object SQL_listarLancamentositen_id: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_id'
+      Origin = 'iten_id'
+    end
+    object SQL_listarLancamentositen_produto: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_produto'
+      Origin = 'iten_produto'
+    end
+    object SQL_listarLancamentositen_qtd: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_qtd'
+      Origin = 'iten_qtd'
+    end
+    object SQL_listarLancamentositen_pedido: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_pedido'
+      Origin = 'iten_pedido'
+    end
+    object SQL_listarLancamentositen_preco: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_preco'
+      Origin = 'iten_preco'
+    end
+    object SQL_listarLancamentositen_preco_prazo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_preco_prazo'
+      Origin = 'iten_preco_prazo'
+    end
+    object SQL_listarLancamentospro_id: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_id'
+      Origin = 'pro_id'
+    end
+    object SQL_listarLancamentospro_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_nome'
+      Origin = 'pro_nome'
+      Size = 100
+    end
+    object SQL_listarLancamentospro_barras: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_barras'
+      Origin = 'pro_barras'
+    end
+    object SQL_listarLancamentospro_ref: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_ref'
+      Origin = 'pro_ref'
+    end
+    object SQL_listarLancamentospro_custo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_custo'
+      Origin = 'pro_custo'
+    end
+    object SQL_listarLancamentospro_preco: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco'
+      Origin = 'pro_preco'
+    end
+    object SQL_listarLancamentospro_preco_prazo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco_prazo'
+      Origin = 'pro_preco_prazo'
+    end
+    object SQL_listarLancamentospro_estoque: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_estoque'
+      Origin = 'pro_estoque'
+    end
+    object SQL_listarLancamentoscli_id: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_id'
+      Origin = 'cli_id'
+    end
+    object SQL_listarLancamentoscli_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_nome'
+      Origin = 'cli_nome'
+      Size = 50
+    end
+    object SQL_listarLancamentoscli_endereco: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_endereco'
+      Origin = 'cli_endereco'
+      Size = 100
+    end
+    object SQL_listarLancamentoscli_numero: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_numero'
+      Origin = 'cli_numero'
+    end
+    object SQL_listarLancamentoscli_bairro: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_bairro'
+      Origin = 'cli_bairro'
+      Size = 50
+    end
+    object SQL_listarLancamentoscli_cidade: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_cidade'
+      Origin = 'cli_cidade'
+      Size = 50
+    end
+    object SQL_listarLancamentoscli_fone: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_fone'
+      Origin = 'cli_fone'
+    end
+    object SQL_listarLancamentoscli_celular: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_celular'
+      Origin = 'cli_celular'
+    end
+    object SQL_listarLancamentoscli_rg: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_rg'
+      Origin = 'cli_rg'
+    end
+    object SQL_listarLancamentoscli_cpf: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_cpf'
+      Origin = 'cli_cpf'
+    end
+    object SQL_listarLancamentoscli_profissao: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_profissao'
+      Origin = 'cli_profissao'
+      Size = 50
+    end
+    object SQL_listarLancamentoscli_data_nasc: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_data_nasc'
+      Origin = 'cli_data_nasc'
+    end
+    object SQL_listarLancamentosforma_id: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'forma_id'
+      Origin = 'forma_id'
+    end
+    object SQL_listarLancamentosforma_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'forma_nome'
+      Origin = 'forma_nome'
+      Size = 40
+    end
+    object SQL_listarLancamentosuser_id: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'user_id'
+      Origin = 'user_id'
+    end
+    object SQL_listarLancamentosuser_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'user_nome'
+      Origin = 'user_nome'
+      Size = 50
+    end
+    object SQL_listarLancamentosuser_nome_completo: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'user_nome_completo'
+      Origin = 'user_nome_completo'
+      Size = 80
+    end
+    object SQL_listarLancamentosuser_senha: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'user_senha'
+      Origin = 'user_senha'
+      Size = 40
+    end
+  end
+  object ds_listarLancamentos: TDataSource
+    DataSet = SQL_listarLancamentos
+    Left = 456
+    Top = 8
+  end
+end

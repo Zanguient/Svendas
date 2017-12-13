@@ -1,0 +1,283 @@
+unit U_lancamentos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask, RxToolEdit, RxCurrEdit, Vcl.Buttons,
+  RxLookup;
+
+type
+  TF_lancamento = class(TForm)
+    Panel1: TPanel;
+    DBG_listarLancamentos: TDBGrid;
+    txt_valorVista: TCurrencyEdit;
+    txt_valorPrazo: TCurrencyEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    btn_imprimirPedido: TSpeedButton;
+    txt_buscarCliente: TEdit;
+    Label3: TLabel;
+    txt_buscarCodVenda: TEdit;
+    Label4: TLabel;
+    btn_listarTodos: TSpeedButton;
+    txt_formaPag: TRxDBLookupCombo;
+    Label5: TLabel;
+    btn_fecharPedido: TSpeedButton;
+    TB_faturarPedidos: TFDTable;
+    TB_faturarPedidosped_id: TFDAutoIncField;
+    TB_faturarPedidosped_data: TDateField;
+    TB_faturarPedidosped_codigo: TStringField;
+    TB_faturarPedidosped_cliente: TIntegerField;
+    TB_faturarPedidosped_usuario: TIntegerField;
+    TB_faturarPedidosped_forma_pag: TIntegerField;
+    TB_faturarPedidosped_fechado: TStringField;
+    TB_faturarPedidosped_faturado: TStringField;
+    SQL_listarLancamentos: TFDQuery;
+    FDAutoIncField1: TFDAutoIncField;
+    DateField1: TDateField;
+    StringField1: TStringField;
+    IntegerField1: TIntegerField;
+    IntegerField2: TIntegerField;
+    IntegerField3: TIntegerField;
+    StringField2: TStringField;
+    StringField3: TStringField;
+    FDAutoIncField2: TFDAutoIncField;
+    IntegerField4: TIntegerField;
+    IntegerField5: TIntegerField;
+    StringField4: TStringField;
+    FloatField1: TFloatField;
+    FloatField2: TFloatField;
+    FDAutoIncField3: TFDAutoIncField;
+    StringField5: TStringField;
+    StringField6: TStringField;
+    StringField7: TStringField;
+    FloatField3: TFloatField;
+    FloatField4: TFloatField;
+    FloatField5: TFloatField;
+    IntegerField6: TIntegerField;
+    FDAutoIncField4: TFDAutoIncField;
+    StringField8: TStringField;
+    StringField9: TStringField;
+    StringField10: TStringField;
+    StringField11: TStringField;
+    StringField12: TStringField;
+    StringField13: TStringField;
+    StringField14: TStringField;
+    StringField15: TStringField;
+    StringField16: TStringField;
+    StringField17: TStringField;
+    DateField2: TDateField;
+    FDAutoIncField5: TFDAutoIncField;
+    StringField18: TStringField;
+    FDAutoIncField6: TFDAutoIncField;
+    StringField19: TStringField;
+    StringField20: TStringField;
+    StringField21: TStringField;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure procedureMostrarPedido;
+    procedure DBG_listarLancamentosCellClick(Column: TColumn);
+    procedure btn_imprimirPedidoClick(Sender: TObject);
+    procedure txt_buscarClienteKeyPress(Sender: TObject; var Key: Char);
+    procedure txt_buscarCodVendaKeyPress(Sender: TObject; var Key: Char);
+    procedure btn_listarTodosClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btn_fecharPedidoClick(Sender: TObject);
+  private
+    { Private declarations }
+    var TOTAL_VISTA,TOTAL_PRAZO: Double;
+    var CODIGO_VENDA: string;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  F_lancamento: TF_lancamento;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm, U_gerarParcelas;
+
+procedure TF_lancamento.procedureMostrarPedido;
+begin
+ // procedimento para mostrar pedido adicionado
+
+   TOTAL_VISTA:= 0;
+   TOTAL_PRAZO:= 0;
+   CODIGO_VENDA:=  F_gerarParcelas.SQL_listarLancamentosped_codigo.AsString;
+   // executo a SQL de listar pedidos com itens
+   //executo a sql de lista pedido para filtrar atual
+    with dm.SQL_listarPedidos do
+    begin
+     Close;
+     SQL.Clear;
+     SQL.Add('select * from view_listar_pedido');
+     SQL.Add('where ped_codigo = :codigo');
+     ParamByName('codigo').Value:= CODIGO_VENDA;
+     Open;
+    end;
+   //---------------
+    dm.SQL_listarPedidos.First;
+
+    while not dm.SQL_listarPedidos.Eof do
+    begin
+     TOTAL_VISTA:= TOTAL_VISTA + dm.SQL_listarPedidossubTotal.Value;
+     TOTAL_PRAZO:= TOTAL_PRAZO + dm.SQL_listarPedidossubTotalPrazo.Value;
+    dm.SQL_listarPedidos.Next;
+    end;
+    txt_valorVista.Value:= TOTAL_VISTA;
+    txt_valorPrazo.Value:= TOTAL_PRAZO;
+end;
+
+procedure TF_lancamento.txt_buscarClienteKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+// procurar pedido por cliente
+    if Key =#13 then
+    begin
+     //faço a query pelo cliente digitado
+    with F_gerarParcelas.SQL_listarLancamentos do
+        begin
+        Close;
+        SQL.Clear;
+        SQL.Add('select * from view_listar_pedido');
+        SQL.Add('where cli_nome like :nome');
+        SQL.Add('AND ped_faturado = "NAO"');
+        SQL.Add('group by ped_codigo');
+        ParamByName('nome').Value:= txt_buscarCliente.Text + '%';
+        Open;
+           //caso nao econtrar o cliente digitado
+           if RecordCount= 0  then
+           begin
+        ShowMessage('Cliente nao econtrado');
+        btn_listarTodos.Click;
+
+        end;
+
+
+        end;
+
+
+
+    end;
+
+
+end;
+
+procedure TF_lancamento.txt_buscarCodVendaKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if Key =#13 then
+    begin
+     //faço a query pelo codigo digitado
+    with F_gerarParcelas.SQL_listarLancamentos do
+        begin
+        Close;
+        SQL.Clear;
+        SQL.Add('select * from view_listar_pedido');
+        SQL.Add('where ped_codigo = :cod');
+        SQL.Add('AND ped_faturado = "NAO"');
+        SQL.Add('group by ped_codigo');
+        ParamByName('cod').Value:= txt_buscarCodVenda.Text;
+        Open;
+           //caso nao econtrar o cliente digitado
+           if RecordCount= 0  then
+           begin
+        ShowMessage('Codigo nao econtrado');
+        btn_listarTodos.Click;
+        end;
+
+
+        end;
+
+
+
+    end;
+
+end;
+
+procedure TF_lancamento.btn_fecharPedidoClick(Sender: TObject);
+begin
+ //botao para faturar pedido
+ if  txt_formaPag.Text='' then
+ begin
+ ShowMessage('Voce Precisa Selecionar a forma de pagamento');
+ txt_formaPag.SetFocus;
+ Exit;
+ end;
+ //verifica se o pedido ja esta faturado
+ if dm.SQL_listarPedidosped_faturado.Value= 'SIM' then
+ begin
+   ShowMessage('Este pedido ja foi faturado');
+   Exit;
+ end;
+  //faço o fechamento propiamente dito
+  dm.tb_faturarPedidos.Active:= True;
+   dm.tb_faturarPedidos.Locate('ped_codigo',dm.SQL_listarPedidosped_codigo.AsString,[]);
+
+   dm.TB_faturarPedidos.Edit;
+   dm.TB_faturarPedidosped_forma_pag.Value:= dm.SQL_formaPagforma_id.Value;
+   dm.TB_faturarPedidosped_faturado.Value:= 'SIM';
+   dm.TB_faturarPedidos.Post;
+   //-------------------------
+
+   ShowMessage('Pedido Faturado com Sucesso');
+
+   // imprimo recibo
+   btn_imprimirPedido.Click;
+
+   //rotina de lançar no caixa ou nao
+
+   // atualizo a minha SQL da listagem
+
+    F_gerarParcelas.SQL_listarLancamentos.Close;
+      F_gerarParcelas.SQL_listarLancamentos.open;
+end;
+
+procedure TF_lancamento.btn_imprimirPedidoClick(Sender: TObject);
+begin
+ //imprimi o pedido
+  dm.Report_reciboPedido.PrintReport;
+end;
+
+procedure TF_lancamento.btn_listarTodosClick(Sender: TObject);
+begin
+  //faço a query pelo codigo digitado
+    with F_gerarParcelas.SQL_listarLancamentos do
+        begin
+        Close;
+        SQL.Clear;
+        SQL.Add('select * from view_listar_pedido');
+        sql.Add('where ped_faturado = "NAO"');
+        SQL.Add('group by ped_codigo');
+        Open;
+        if RecordCount=0 then
+        ShowMessage('Não existem pedidos a serem faturados');
+end;
+end;
+procedure TF_lancamento.DBG_listarLancamentosCellClick(Column: TColumn);
+begin
+   // atualizo os dados dos itens
+   procedureMostrarPedido;
+end;
+
+procedure TF_lancamento.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+F_lancamento:= nil;
+end;
+
+procedure TF_lancamento.FormCreate(Sender: TObject);
+begin
+
+// abre a tela de forma de pagamento
+ dm.SQL_formaPag.Active:= True;
+end;
+
+end.

@@ -1,0 +1,567 @@
+object F_clientes: TF_clientes
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Cadastro e consulta de clientes'
+  ClientHeight = 469
+  ClientWidth = 647
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 16
+  object page_clientes: TPageControl
+    Left = 0
+    Top = 0
+    Width = 647
+    Height = 469
+    ActivePage = Tab_cadastrar
+    Align = alClient
+    TabOrder = 0
+    TabWidth = 200
+    object Tab_consultar: TTabSheet
+      Caption = 'Consultar'
+      object Image2: TImage
+        Left = 0
+        Top = 0
+        Width = 639
+        Height = 88
+        Align = alClient
+        Picture.Data = {
+          0A544A504547496D6167650B030000FFD8FFE000104A46494600010101006000
+          600000FFE1005A4578696600004D4D002A000000080005030100050000000100
+          00004A0303000100000001000000005110000100000001010000005111000400
+          00000100000EC3511200040000000100000EC300000000000186A00000B18FFF
+          DB00430002010102010102020202020202020305030303030306040403050706
+          07070706070708090B0908080A0807070A0D0A0A0B0C0C0C0C07090E0F0D0C0E
+          0B0C0C0CFFDB004301020202030303060303060C0807080C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0CFFC00011080030004203012200021101031101FFC4001F
+          0000010501010101010100000000000000000102030405060708090A0BFFC400
+          B5100002010303020403050504040000017D0102030004110512213141061351
+          6107227114328191A1082342B1C11552D1F02433627282090A161718191A2526
+          2728292A3435363738393A434445464748494A535455565758595A6364656667
+          68696A737475767778797A838485868788898A92939495969798999AA2A3A4A5
+          A6A7A8A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DA
+          E1E2E3E4E5E6E7E8E9EAF1F2F3F4F5F6F7F8F9FAFFC4001F0100030101010101
+          010101010000000000000102030405060708090A0BFFC400B511000201020404
+          0304070504040001027700010203110405213106124151076171132232810814
+          4291A1B1C109233352F0156272D10A162434E125F11718191A262728292A3536
+          3738393A434445464748494A535455565758595A636465666768696A73747576
+          7778797A82838485868788898A92939495969798999AA2A3A4A5A6A7A8A9AAB2
+          B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE2E3E4E5E6E7
+          E8E9EAF2F3F4F5F6F7F8F9FAFFDA000C03010002110311003F00FDBCA28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2803FFD9}
+        Stretch = True
+        ExplicitLeft = -3
+        ExplicitTop = 3
+        ExplicitWidth = 776
+        ExplicitHeight = 318
+      end
+      object btn_editarCliente: TSpeedButton
+        Left = 520
+        Top = 66
+        Width = 117
+        Height = 22
+        Caption = 'Editar Selecionado'
+        OnClick = btn_editarClienteClick
+      end
+      object Label12: TLabel
+        Left = 3
+        Top = 44
+        Width = 50
+        Height = 16
+        Caption = 'Pesquisa'
+      end
+      object DBG_clientes: TDBGrid
+        Left = 0
+        Top = 88
+        Width = 639
+        Height = 350
+        Align = alBottom
+        DataSource = dm.ds_clientes
+        Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -13
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnDblClick = DBG_clientesDblClick
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'cli_id'
+            Title.Caption = 'Codigo'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_nome'
+            Title.Caption = 'Cliente'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_endereco'
+            Title.Caption = 'Endereco'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_numero'
+            Title.Caption = 'Numero'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_bairro'
+            Title.Caption = 'Bairro'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_cidade'
+            Title.Caption = 'Cidade'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_fone'
+            Title.Caption = 'Fone'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_celular'
+            Title.Caption = 'Celular'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_rg'
+            Title.Caption = 'Rg'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_cpf'
+            Title.Caption = 'Cpf'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_profissao'
+            Title.Caption = 'Profissao'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_data_nasc'
+            Title.Caption = 'Data Nasc'
+            Visible = True
+          end>
+      end
+      object txt_buscar: TEdit
+        Left = 3
+        Top = 58
+        Width = 254
+        Height = 26
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = txt_buscarKeyPress
+      end
+    end
+    object Tab_cadastrar: TTabSheet
+      Caption = 'Cadastrar / Editar'
+      ImageIndex = 1
+      object Image1: TImage
+        Left = 0
+        Top = 0
+        Width = 639
+        Height = 438
+        Align = alClient
+        Picture.Data = {
+          0A544A504547496D6167650B030000FFD8FFE000104A46494600010101006000
+          600000FFE1005A4578696600004D4D002A000000080005030100050000000100
+          00004A0303000100000001000000005110000100000001010000005111000400
+          00000100000EC3511200040000000100000EC300000000000186A00000B18FFF
+          DB00430002010102010102020202020202020305030303030306040403050706
+          07070706070708090B0908080A0807070A0D0A0A0B0C0C0C0C07090E0F0D0C0E
+          0B0C0C0CFFDB004301020202030303060303060C0807080C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0CFFC00011080030004203012200021101031101FFC4001F
+          0000010501010101010100000000000000000102030405060708090A0BFFC400
+          B5100002010303020403050504040000017D0102030004110512213141061351
+          6107227114328191A1082342B1C11552D1F02433627282090A161718191A2526
+          2728292A3435363738393A434445464748494A535455565758595A6364656667
+          68696A737475767778797A838485868788898A92939495969798999AA2A3A4A5
+          A6A7A8A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DA
+          E1E2E3E4E5E6E7E8E9EAF1F2F3F4F5F6F7F8F9FAFFC4001F0100030101010101
+          010101010000000000000102030405060708090A0BFFC400B511000201020404
+          0304070504040001027700010203110405213106124151076171132232810814
+          4291A1B1C109233352F0156272D10A162434E125F11718191A262728292A3536
+          3738393A434445464748494A535455565758595A636465666768696A73747576
+          7778797A82838485868788898A92939495969798999AA2A3A4A5A6A7A8A9AAB2
+          B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE2E3E4E5E6E7
+          E8E9EAF2F3F4F5F6F7F8F9FAFFDA000C03010002110311003F00FDBCA28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2803FFD9}
+        Stretch = True
+        ExplicitLeft = 232
+        ExplicitTop = 24
+        ExplicitWidth = 105
+        ExplicitHeight = 105
+      end
+      object btn_novo: TSpeedButton
+        Left = 16
+        Top = 246
+        Width = 100
+        Height = 40
+        Action = ac_insert
+      end
+      object btn_editar: TSpeedButton
+        Left = 131
+        Top = 246
+        Width = 100
+        Height = 40
+        Action = ac_editar
+      end
+      object btn_ok: TSpeedButton
+        Left = 237
+        Top = 246
+        Width = 100
+        Height = 40
+        Action = ac_ok
+      end
+      object btn_cancelar: TSpeedButton
+        Left = 359
+        Top = 246
+        Width = 100
+        Height = 40
+        Action = ac_cancelar
+      end
+      object btn_delete: TSpeedButton
+        Left = 478
+        Top = 246
+        Width = 100
+        Height = 40
+        Action = ac_delete
+        OnClick = btn_deleteClick
+      end
+      object Label1: TLabel
+        Left = 16
+        Top = 24
+        Width = 39
+        Height = 32
+        Caption = 'Cliente'#13#10
+        FocusControl = DBEdit1
+      end
+      object Label2: TLabel
+        Left = 16
+        Top = 74
+        Width = 53
+        Height = 16
+        Caption = 'Endereco'
+        FocusControl = DBEdit2
+      end
+      object Label3: TLabel
+        Left = 322
+        Top = 74
+        Width = 45
+        Height = 16
+        Caption = 'Numero'
+        FocusControl = DBEdit3
+      end
+      object Label4: TLabel
+        Left = 14
+        Top = 118
+        Width = 34
+        Height = 16
+        Caption = 'Bairro'
+        FocusControl = DBEdit4
+      end
+      object Label5: TLabel
+        Left = 272
+        Top = 118
+        Width = 39
+        Height = 16
+        Caption = 'Cidade'
+        FocusControl = DBEdit5
+      end
+      object Label6: TLabel
+        Left = 16
+        Top = 160
+        Width = 28
+        Height = 16
+        Caption = 'Fone'
+        FocusControl = DBEdit6
+      end
+      object Label7: TLabel
+        Left = 346
+        Top = 160
+        Width = 40
+        Height = 16
+        Caption = 'Celular'
+        FocusControl = DBEdit7
+      end
+      object Label8: TLabel
+        Left = 16
+        Top = 200
+        Width = 15
+        Height = 16
+        Caption = 'Rg'
+        FocusControl = DBEdit8
+      end
+      object Label9: TLabel
+        Left = 168
+        Top = 200
+        Width = 19
+        Height = 16
+        Caption = 'Cpf'
+        FocusControl = DBEdit9
+      end
+      object Label10: TLabel
+        Left = 328
+        Top = 200
+        Width = 52
+        Height = 16
+        Caption = 'Profissao'
+        FocusControl = DBEdit10
+      end
+      object Label11: TLabel
+        Left = 322
+        Top = 24
+        Width = 61
+        Height = 32
+        Caption = 'Data Nasc.'#13#10
+        FocusControl = DBEdit11
+      end
+      object DBEdit1: TDBEdit
+        Left = 16
+        Top = 40
+        Width = 300
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_nome'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 0
+      end
+      object DBEdit2: TDBEdit
+        Left = 16
+        Top = 88
+        Width = 300
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_endereco'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 2
+      end
+      object DBEdit3: TDBEdit
+        Left = 322
+        Top = 88
+        Width = 167
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_numero'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 3
+      end
+      object DBEdit4: TDBEdit
+        Left = 16
+        Top = 134
+        Width = 250
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_bairro'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 4
+      end
+      object DBEdit5: TDBEdit
+        Left = 272
+        Top = 135
+        Width = 300
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_cidade'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 5
+      end
+      object DBEdit6: TDBEdit
+        Left = 16
+        Top = 176
+        Width = 324
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_fone'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 6
+      end
+      object DBEdit7: TDBEdit
+        Left = 346
+        Top = 176
+        Width = 143
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_celular'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 7
+      end
+      object DBEdit8: TDBEdit
+        Left = 16
+        Top = 216
+        Width = 141
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_rg'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 8
+      end
+      object DBEdit9: TDBEdit
+        Left = 168
+        Top = 216
+        Width = 148
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_cpf'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 9
+      end
+      object DBEdit10: TDBEdit
+        Left = 328
+        Top = 216
+        Width = 250
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_profissao'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 10
+      end
+      object DBEdit11: TDBEdit
+        Left = 322
+        Top = 40
+        Width = 167
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'cli_data_nasc'
+        DataSource = Ds_clientesCadastrar
+        TabOrder = 1
+      end
+      object DBNavigator1: TDBNavigator
+        Left = 454
+        Top = 413
+        Width = 124
+        Height = 29
+        DataSource = Ds_clientesCadastrar
+        VisibleButtons = [nbPrior, nbNext]
+        TabOrder = 11
+      end
+      object DBGrid1: TDBGrid
+        Left = 16
+        Top = 292
+        Width = 562
+        Height = 120
+        DataSource = Ds_clientesCadastrar
+        Enabled = False
+        TabOrder = 12
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -13
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'cli_nome'
+            Title.Caption = 'Cliente'
+            Width = 181
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_endereco'
+            Title.Caption = 'Endereco'
+            Width = 140
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_rg'
+            Title.Caption = 'Rg'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_cpf'
+            Title.Caption = 'Cpf'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'cli_data_nasc'
+            Title.Caption = 'Data Nasc'
+            Visible = True
+          end>
+      end
+    end
+  end
+  object acm_clientes: TActionManager
+    Left = 36
+    Top = 331
+    StyleName = 'Platform Default'
+    object ac_insert: TDataSetInsert
+      Category = 'Dataset'
+      Caption = 'Novo'
+      Hint = 'Insert'
+      ImageIndex = 4
+      DataSource = Ds_clientesCadastrar
+    end
+    object ac_delete: TDataSetDelete
+      Category = 'Dataset'
+      Caption = 'Apagar'
+      Hint = 'Delete'
+      ImageIndex = 5
+      DataSource = Ds_clientesCadastrar
+    end
+    object ac_editar: TDataSetEdit
+      Category = 'Dataset'
+      Caption = 'Editar'
+      Hint = 'Edit'
+      ImageIndex = 6
+      DataSource = Ds_clientesCadastrar
+    end
+    object ac_ok: TDataSetPost
+      Category = 'Dataset'
+      Caption = 'Gravar'
+      Hint = 'Post'
+      ImageIndex = 7
+      OnExecute = ac_okExecute
+      DataSource = Ds_clientesCadastrar
+    end
+    object ac_cancelar: TDataSetCancel
+      Category = 'Dataset'
+      Caption = 'Cancelar'
+      Hint = 'Cancel'
+      ImageIndex = 8
+      DataSource = Ds_clientesCadastrar
+    end
+  end
+  object Ds_clientesCadastrar: TDataSource
+    DataSet = dm.TB_clientes
+    Left = 128
+    Top = 328
+  end
+end

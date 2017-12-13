@@ -1,0 +1,962 @@
+object F_etiquetas: TF_etiquetas
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Gerar etiquetas'
+  ClientHeight = 469
+  ClientWidth = 774
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 16
+  object stb_produtos: TStatusBar
+    Left = 0
+    Top = 450
+    Width = 774
+    Height = 19
+    Panels = <>
+  end
+  object page_produtos: TPageControl
+    Left = 0
+    Top = 0
+    Width = 774
+    Height = 450
+    ActivePage = tab_consultar
+    Align = alClient
+    TabOrder = 1
+    TabWidth = 200
+    object tab_consultar: TTabSheet
+      Caption = 'Gerar etiquetas'
+      object Image1: TImage
+        Left = 0
+        Top = 0
+        Width = 766
+        Height = 71
+        Align = alClient
+        Picture.Data = {
+          0A544A504547496D6167650B030000FFD8FFE000104A46494600010101006000
+          600000FFE1005A4578696600004D4D002A000000080005030100050000000100
+          00004A0303000100000001000000005110000100000001010000005111000400
+          00000100000EC3511200040000000100000EC300000000000186A00000B18FFF
+          DB00430002010102010102020202020202020305030303030306040403050706
+          07070706070708090B0908080A0807070A0D0A0A0B0C0C0C0C07090E0F0D0C0E
+          0B0C0C0CFFDB004301020202030303060303060C0807080C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0CFFC00011080030004203012200021101031101FFC4001F
+          0000010501010101010100000000000000000102030405060708090A0BFFC400
+          B5100002010303020403050504040000017D0102030004110512213141061351
+          6107227114328191A1082342B1C11552D1F02433627282090A161718191A2526
+          2728292A3435363738393A434445464748494A535455565758595A6364656667
+          68696A737475767778797A838485868788898A92939495969798999AA2A3A4A5
+          A6A7A8A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DA
+          E1E2E3E4E5E6E7E8E9EAF1F2F3F4F5F6F7F8F9FAFFC4001F0100030101010101
+          010101010000000000000102030405060708090A0BFFC400B511000201020404
+          0304070504040001027700010203110405213106124151076171132232810814
+          4291A1B1C109233352F0156272D10A162434E125F11718191A262728292A3536
+          3738393A434445464748494A535455565758595A636465666768696A73747576
+          7778797A82838485868788898A92939495969798999AA2A3A4A5A6A7A8A9AAB2
+          B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE2E3E4E5E6E7
+          E8E9EAF2F3F4F5F6F7F8F9FAFFDA000C03010002110311003F00FDBCA28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2803FFD9}
+        Stretch = True
+        ExplicitLeft = 264
+        ExplicitTop = 3
+        ExplicitWidth = 105
+        ExplicitHeight = 105
+      end
+      object Label1: TLabel
+        Left = 103
+        Top = 14
+        Width = 123
+        Height = 18
+        Caption = 'Pesquisar Produtos'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label9: TLabel
+        Left = 271
+        Top = 3
+        Width = 267
+        Height = 18
+        Caption = 'Selecionar produtos para lan'#231'ar etiquetas'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clNavy
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object DBG_produtos: TDBGrid
+        Left = 0
+        Top = 71
+        Width = 766
+        Height = 128
+        Align = alBottom
+        DataSource = dm.ds_produtos
+        Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -13
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnDblClick = DBG_produtosDblClick
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'pro_id'
+            Title.Caption = 'ID'
+            Title.Color = clBlack
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_nome'
+            Title.Caption = 'PRODUTOS'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 250
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_estoque'
+            Title.Caption = 'QTD'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 64
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_barras'
+            Title.Caption = 'BARRAS'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_preco'
+            Title.Caption = 'R$ PRE'#199'O'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 64
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_preco_prazo'
+            Title.Caption = 'R$ PRAZO'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 64
+            Visible = True
+          end>
+      end
+      object txt_busca: TEdit
+        Left = 103
+        Top = 34
+        Width = 313
+        Height = 25
+        CharCase = ecUpperCase
+        Ctl3D = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentCtl3D = False
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = txt_buscaKeyPress
+      end
+      object rg_buscar: TRadioGroup
+        Left = 3
+        Top = 3
+        Width = 94
+        Height = 56
+        Items.Strings = (
+          'Por Nome'
+          'Por Barras')
+        TabOrder = 2
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 199
+        Width = 766
+        Height = 220
+        Align = alBottom
+        TabOrder = 3
+        object btn_etiquetaImprimir: TSpeedButton
+          Left = 632
+          Top = 120
+          Width = 131
+          Height = 42
+          Caption = 'Imprimir'
+        end
+        object btn_etiquetaCancelar: TSpeedButton
+          Left = 632
+          Top = 176
+          Width = 131
+          Height = 42
+          Caption = 'Cancelar'
+        end
+        object btn_gerarEtiqueta: TSpeedButton
+          Left = 366
+          Top = 6
+          Width = 147
+          Height = 24
+          Caption = 'Lan'#231'ar na etiqueta'
+          OnClick = btn_gerarEtiquetaClick
+        end
+        object DBGrid1: TDBGrid
+          Left = 0
+          Top = 34
+          Width = 513
+          Height = 184
+          DataSource = ds_listarEtiquetas
+          Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'pro_nome'
+              Width = 273
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'pro_barras'
+              Width = 96
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'quant'
+              Title.Caption = 'QTD'
+              Width = 94
+              Visible = True
+            end>
+        end
+        object txt_etiquetasQTD: TCurrencyEdit
+          Left = 304
+          Top = 6
+          Width = 56
+          Height = 27
+          Color = clYellow
+          DisplayFormat = '0'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 1
+        end
+      end
+    end
+    object tab_cadastrar: TTabSheet
+      Caption = 'Cadastrar / Editar'
+      Enabled = False
+      ImageIndex = 1
+      TabVisible = False
+      object Image2: TImage
+        Left = 0
+        Top = 0
+        Width = 766
+        Height = 419
+        Align = alClient
+        Picture.Data = {
+          0A544A504547496D6167650B030000FFD8FFE000104A46494600010101006000
+          600000FFE1005A4578696600004D4D002A000000080005030100050000000100
+          00004A0303000100000001000000005110000100000001010000005111000400
+          00000100000EC3511200040000000100000EC300000000000186A00000B18FFF
+          DB00430002010102010102020202020202020305030303030306040403050706
+          07070706070708090B0908080A0807070A0D0A0A0B0C0C0C0C07090E0F0D0C0E
+          0B0C0C0CFFDB004301020202030303060303060C0807080C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0CFFC00011080030004203012200021101031101FFC4001F
+          0000010501010101010100000000000000000102030405060708090A0BFFC400
+          B5100002010303020403050504040000017D0102030004110512213141061351
+          6107227114328191A1082342B1C11552D1F02433627282090A161718191A2526
+          2728292A3435363738393A434445464748494A535455565758595A6364656667
+          68696A737475767778797A838485868788898A92939495969798999AA2A3A4A5
+          A6A7A8A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DA
+          E1E2E3E4E5E6E7E8E9EAF1F2F3F4F5F6F7F8F9FAFFC4001F0100030101010101
+          010101010000000000000102030405060708090A0BFFC400B511000201020404
+          0304070504040001027700010203110405213106124151076171132232810814
+          4291A1B1C109233352F0156272D10A162434E125F11718191A262728292A3536
+          3738393A434445464748494A535455565758595A636465666768696A73747576
+          7778797A82838485868788898A92939495969798999AA2A3A4A5A6A7A8A9AAB2
+          B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE2E3E4E5E6E7
+          E8E9EAF2F3F4F5F6F7F8F9FAFFDA000C03010002110311003F00FDBCA28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2803FFD9}
+        Stretch = True
+        ExplicitHeight = 40
+      end
+      object Label2: TLabel
+        Left = 3
+        Top = 56
+        Width = 44
+        Height = 16
+        Caption = 'Produto'
+        FocusControl = DBEdit1
+      end
+      object Label3: TLabel
+        Left = 309
+        Top = 56
+        Width = 63
+        Height = 16
+        Caption = 'Cod Barras'
+        FocusControl = DBEdit2
+      end
+      object Label4: TLabel
+        Left = 465
+        Top = 56
+        Width = 19
+        Height = 16
+        Caption = 'Ref'
+        FocusControl = DBEdit3
+      end
+      object Label5: TLabel
+        Left = 3
+        Top = 96
+        Width = 51
+        Height = 16
+        Caption = 'R$ Custo'
+        FocusControl = DBEdit4
+      end
+      object Label6: TLabel
+        Left = 109
+        Top = 96
+        Width = 51
+        Height = 16
+        Caption = 'R$ Pre'#231'o'
+        FocusControl = DBEdit5
+      end
+      object Label7: TLabel
+        Left = 215
+        Top = 98
+        Width = 87
+        Height = 16
+        Caption = 'R$ Pre'#231'o Prazo'
+        FocusControl = DBEdit6
+      end
+      object Label8: TLabel
+        Left = 321
+        Top = 96
+        Width = 45
+        Height = 16
+        Caption = 'Estoque'
+        FocusControl = DBEdit7
+      end
+      object btn_novo: TSpeedButton
+        Left = 41
+        Top = 360
+        Width = 100
+        Height = 40
+        Action = ac_insert
+      end
+      object btn_editar: TSpeedButton
+        Left = 147
+        Top = 360
+        Width = 100
+        Height = 40
+        Action = ac_editar
+      end
+      object btn_ok: TSpeedButton
+        Left = 253
+        Top = 360
+        Width = 100
+        Height = 40
+        Action = ac_ok
+      end
+      object btn_cancelar: TSpeedButton
+        Left = 359
+        Top = 360
+        Width = 100
+        Height = 40
+        Action = ac_cancelar
+      end
+      object btn_delete: TSpeedButton
+        Left = 465
+        Top = 360
+        Width = 100
+        Height = 40
+        Action = ac_delete
+      end
+      object btn_gerarBarras: TSpeedButton
+        Left = 398
+        Top = 50
+        Width = 59
+        Height = 22
+        Caption = 'Gerar'
+        OnClick = btn_gerarBarrasClick
+      end
+      object DBEdit1: TDBEdit
+        Left = 3
+        Top = 72
+        Width = 300
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'pro_nome'
+        DataSource = ds_produtos_cad
+        TabOrder = 0
+      end
+      object DBEdit2: TDBEdit
+        Left = 309
+        Top = 72
+        Width = 150
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'pro_barras'
+        DataSource = ds_produtos_cad
+        TabOrder = 1
+      end
+      object DBEdit3: TDBEdit
+        Left = 463
+        Top = 72
+        Width = 150
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'pro_ref'
+        DataSource = ds_produtos_cad
+        TabOrder = 2
+      end
+      object DBEdit4: TDBEdit
+        Left = 3
+        Top = 112
+        Width = 100
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'pro_custo'
+        DataSource = ds_produtos_cad
+        TabOrder = 3
+      end
+      object DBEdit5: TDBEdit
+        Left = 109
+        Top = 112
+        Width = 100
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'pro_preco'
+        DataSource = ds_produtos_cad
+        TabOrder = 4
+      end
+      object DBEdit6: TDBEdit
+        Left = 215
+        Top = 112
+        Width = 100
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'pro_preco_prazo'
+        DataSource = ds_produtos_cad
+        TabOrder = 5
+      end
+      object DBEdit7: TDBEdit
+        Left = 321
+        Top = 112
+        Width = 100
+        Height = 24
+        CharCase = ecUpperCase
+        DataField = 'pro_estoque'
+        DataSource = ds_produtos_cad
+        TabOrder = 6
+      end
+    end
+  end
+  object ds_produtos_cad: TDataSource
+    DataSet = dm.TB_produtos
+    Left = 32
+    Top = 392
+  end
+  object acm_produtos: TActionManager
+    Left = 92
+    Top = 283
+    StyleName = 'Platform Default'
+    object ac_insert: TDataSetInsert
+      Category = 'Dataset'
+      Caption = 'Novo'
+      Hint = 'Insert'
+      ImageIndex = 4
+      DataSource = ds_produtos_cad
+    end
+    object ac_delete: TDataSetDelete
+      Category = 'Dataset'
+      Caption = 'Apagar'
+      Hint = 'Delete'
+      ImageIndex = 5
+      DataSource = ds_produtos_cad
+    end
+    object ac_editar: TDataSetEdit
+      Category = 'Dataset'
+      Caption = 'Editar'
+      Hint = 'Edit'
+      ImageIndex = 6
+      DataSource = ds_produtos_cad
+    end
+    object ac_ok: TDataSetPost
+      Category = 'Dataset'
+      Caption = 'Gravar'
+      Hint = 'Post'
+      ImageIndex = 7
+      DataSource = ds_produtos_cad
+    end
+    object ac_cancelar: TDataSetCancel
+      Category = 'Dataset'
+      Caption = 'Cancelar'
+      Hint = 'Cancel'
+      ImageIndex = 8
+      DataSource = ds_produtos_cad
+    end
+  end
+  object TB_gerarEtiquetas: TFDTable
+    IndexFieldNames = 'eti_id'
+    Connection = dm.conexao
+    UpdateOptions.UpdateTableName = 'svendas.etiquetas'
+    TableName = 'svendas.etiquetas'
+    Left = 228
+    Top = 298
+    object TB_gerarEtiquetaseti_id: TFDAutoIncField
+      FieldName = 'eti_id'
+      Origin = 'eti_id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object TB_gerarEtiquetaseti_produto: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'eti_produto'
+      Origin = 'eti_produto'
+    end
+  end
+  object SQL_listarEtiquetas: TFDQuery
+    Connection = dm.conexao
+    SQL.Strings = (
+      'select *,count(pro_barras)as quant from view_etiquetas'
+      'group by pro_barras')
+    Left = 348
+    Top = 314
+    object SQL_listarEtiquetaseti_id: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'eti_id'
+      Origin = 'eti_id'
+    end
+    object SQL_listarEtiquetaseti_produto: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'eti_produto'
+      Origin = 'eti_produto'
+    end
+    object SQL_listarEtiquetaspro_id: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_id'
+      Origin = 'pro_id'
+    end
+    object SQL_listarEtiquetaspro_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_nome'
+      Origin = 'pro_nome'
+      Size = 100
+    end
+    object SQL_listarEtiquetaspro_barras: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_barras'
+      Origin = 'pro_barras'
+    end
+    object SQL_listarEtiquetaspro_ref: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_ref'
+      Origin = 'pro_ref'
+    end
+    object SQL_listarEtiquetaspro_custo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_custo'
+      Origin = 'pro_custo'
+    end
+    object SQL_listarEtiquetaspro_preco: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco'
+      Origin = 'pro_preco'
+    end
+    object SQL_listarEtiquetaspro_preco_prazo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco_prazo'
+      Origin = 'pro_preco_prazo'
+    end
+    object SQL_listarEtiquetaspro_estoque: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_estoque'
+      Origin = 'pro_estoque'
+    end
+    object SQL_listarEtiquetasquant: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'quant'
+      Origin = 'quant'
+    end
+  end
+  object ds_listarEtiquetas: TDataSource
+    DataSet = SQL_listarEtiquetas
+    Left = 340
+    Top = 362
+  end
+  object SQL_etiquetasPrinter: TFDQuery
+    Active = True
+    Connection = dm.conexao
+    SQL.Strings = (
+      'select * from view_etiquetas')
+    Left = 484
+    Top = 338
+    object SQL_etiquetasPrintereti_id: TFDAutoIncField
+      FieldName = 'eti_id'
+      Origin = 'eti_id'
+    end
+    object SQL_etiquetasPrintereti_produto: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'eti_produto'
+      Origin = 'eti_produto'
+    end
+    object SQL_etiquetasPrinterpro_id: TFDAutoIncField
+      FieldName = 'pro_id'
+      Origin = 'pro_id'
+    end
+    object SQL_etiquetasPrinterpro_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_nome'
+      Origin = 'pro_nome'
+      Size = 100
+    end
+    object SQL_etiquetasPrinterpro_barras: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_barras'
+      Origin = 'pro_barras'
+    end
+    object SQL_etiquetasPrinterpro_ref: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_ref'
+      Origin = 'pro_ref'
+    end
+    object SQL_etiquetasPrinterpro_custo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_custo'
+      Origin = 'pro_custo'
+    end
+    object SQL_etiquetasPrinterpro_preco: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco'
+      Origin = 'pro_preco'
+    end
+    object SQL_etiquetasPrinterpro_preco_prazo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco_prazo'
+      Origin = 'pro_preco_prazo'
+    end
+    object SQL_etiquetasPrinterpro_estoque: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_estoque'
+      Origin = 'pro_estoque'
+    end
+  end
+  object ds_etiquetasPrinter: TDataSource
+    DataSet = SQL_etiquetasPrinter
+    Left = 508
+    Top = 298
+  end
+  object ppDBP_etiquetasPrinter: TppDBPipeline
+    DataSource = ds_etiquetasPrinter
+    UserName = 'DBP_etiquetasPrinter'
+    Left = 484
+    Top = 218
+    object ppDBP_etiquetasPrinterppField1: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'eti_id'
+      FieldName = 'eti_id'
+      FieldLength = 0
+      DataType = dtLongint
+      DisplayWidth = 10
+      Position = 0
+    end
+    object ppDBP_etiquetasPrinterppField2: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'eti_produto'
+      FieldName = 'eti_produto'
+      FieldLength = 0
+      DataType = dtInteger
+      DisplayWidth = 10
+      Position = 1
+    end
+    object ppDBP_etiquetasPrinterppField3: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'pro_id'
+      FieldName = 'pro_id'
+      FieldLength = 0
+      DataType = dtLongint
+      DisplayWidth = 10
+      Position = 2
+    end
+    object ppDBP_etiquetasPrinterppField4: TppField
+      FieldAlias = 'pro_nome'
+      FieldName = 'pro_nome'
+      FieldLength = 100
+      DisplayWidth = 100
+      Position = 3
+    end
+    object ppDBP_etiquetasPrinterppField5: TppField
+      FieldAlias = 'pro_barras'
+      FieldName = 'pro_barras'
+      FieldLength = 20
+      DisplayWidth = 20
+      Position = 4
+    end
+    object ppDBP_etiquetasPrinterppField6: TppField
+      FieldAlias = 'pro_ref'
+      FieldName = 'pro_ref'
+      FieldLength = 20
+      DisplayWidth = 20
+      Position = 5
+    end
+    object ppDBP_etiquetasPrinterppField7: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'pro_custo'
+      FieldName = 'pro_custo'
+      FieldLength = 0
+      DataType = dtDouble
+      DisplayWidth = 10
+      Position = 6
+    end
+    object ppDBP_etiquetasPrinterppField8: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'pro_preco'
+      FieldName = 'pro_preco'
+      FieldLength = 0
+      DataType = dtDouble
+      DisplayWidth = 10
+      Position = 7
+    end
+    object ppDBP_etiquetasPrinterppField9: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'pro_preco_prazo'
+      FieldName = 'pro_preco_prazo'
+      FieldLength = 0
+      DataType = dtDouble
+      DisplayWidth = 10
+      Position = 8
+    end
+    object ppDBP_etiquetasPrinterppField10: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'pro_estoque'
+      FieldName = 'pro_estoque'
+      FieldLength = 0
+      DataType = dtInteger
+      DisplayWidth = 10
+      Position = 9
+    end
+  end
+  object Report_etiquetasPrinter: TppReport
+    AutoStop = False
+    Columns = 3
+    ColumnPositions.Strings = (
+      '6350'
+      '72116'
+      '137882')
+    DataPipeline = ppDBP_etiquetasPrinter
+    PrinterSetup.BinName = 'Default'
+    PrinterSetup.DocumentName = 'Report'
+    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PrinterName = 'Default'
+    PrinterSetup.SaveDeviceSettings = False
+    PrinterSetup.mmMarginBottom = 6350
+    PrinterSetup.mmMarginLeft = 6350
+    PrinterSetup.mmMarginRight = 6350
+    PrinterSetup.mmMarginTop = 6350
+    PrinterSetup.mmPaperHeight = 297000
+    PrinterSetup.mmPaperWidth = 210000
+    PrinterSetup.PaperSize = 9
+    ArchiveFileName = '($MyDocuments)\ReportArchive.raf'
+    DeviceType = 'Screen'
+    DefaultFileDeviceType = 'PDF'
+    EmailSettings.ReportFormat = 'PDF'
+    LanguageID = 'Default'
+    OpenFile = False
+    OutlineSettings.CreateNode = True
+    OutlineSettings.CreatePageNodes = True
+    OutlineSettings.Enabled = True
+    OutlineSettings.Visible = True
+    ThumbnailSettings.Enabled = True
+    ThumbnailSettings.Visible = True
+    ThumbnailSettings.DeadSpace = 30
+    PDFSettings.EmbedFontOptions = [efUseSubset]
+    PDFSettings.EncryptSettings.AllowCopy = True
+    PDFSettings.EncryptSettings.AllowInteract = True
+    PDFSettings.EncryptSettings.AllowModify = True
+    PDFSettings.EncryptSettings.AllowPrint = True
+    PDFSettings.EncryptSettings.Enabled = False
+    PDFSettings.EncryptSettings.KeyLength = kl40Bit
+    PDFSettings.FontEncoding = feAnsi
+    PDFSettings.ImageCompressionLevel = 25
+    PreviewFormSettings.WindowState = wsMaximized
+    RTFSettings.DefaultFont.Charset = DEFAULT_CHARSET
+    RTFSettings.DefaultFont.Color = clWindowText
+    RTFSettings.DefaultFont.Height = -13
+    RTFSettings.DefaultFont.Name = 'Arial'
+    RTFSettings.DefaultFont.Style = []
+    TextFileName = '($MyDocuments)\Report.pdf'
+    TextSearchSettings.DefaultString = '<Texto a localizar>'
+    TextSearchSettings.Enabled = True
+    XLSSettings.AppName = 'ReportBuilder'
+    XLSSettings.Author = 'ReportBuilder'
+    XLSSettings.Subject = 'Report'
+    XLSSettings.Title = 'Report'
+    Left = 576
+    Top = 248
+    Version = '16.02'
+    mmColumnWidth = 65766
+    DataPipelineName = 'ppDBP_etiquetasPrinter'
+    object ppHeaderBand1: TppHeaderBand
+      Background.Brush.Style = bsClear
+      mmBottomOffset = 0
+      mmHeight = 1323
+      mmPrintPosition = 0
+    end
+    object ppColumnHeaderBand1: TppColumnHeaderBand
+      Background.Brush.Style = bsClear
+      mmBottomOffset = 0
+      mmHeight = 0
+      mmPrintPosition = 0
+    end
+    object ppDetailBand1: TppDetailBand
+      Background1.Brush.Style = bsClear
+      Background2.Brush.Style = bsClear
+      ColumnTraversal = ctLeftToRight
+      mmBottomOffset = 0
+      mmHeight = 82286
+      mmPrintPosition = 0
+      object ppLabel1: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label1'
+        AutoSize = False
+        Caption = 'pro_barras'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 12
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 529
+        mmTop = 47096
+        mmWidth = 21431
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText1: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText1'
+        DataField = 'pro_barras'
+        DataPipeline = ppDBP_etiquetasPrinter
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 12
+        Font.Style = []
+        Transparent = True
+        DataPipelineName = 'ppDBP_etiquetasPrinter'
+        mmHeight = 4763
+        mmLeft = 23019
+        mmTop = 47096
+        mmWidth = 64558
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBBarCode1: TppDBBarCode
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBBarCode1'
+        AlignBarCode = ahLeft
+        BarCodeType = bcCode39
+        BarColor = clBlack
+        DataPipeline = ppDBP_etiquetasPrinter
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 8
+        Font.Style = []
+        Transparent = True
+        DataPipelineName = 'ppDBP_etiquetasPrinter'
+        mmHeight = 16933
+        mmLeft = 5821
+        mmTop = 13758
+        mmWidth = 47625
+        BandType = 4
+        LayerName = Foreground
+        mmBarWidth = 254
+        mmWideBarRatio = 76200
+      end
+    end
+    object ppColumnFooterBand1: TppColumnFooterBand
+      Background.Brush.Style = bsClear
+      mmBottomOffset = 0
+      mmHeight = 0
+      mmPrintPosition = 0
+    end
+    object ppFooterBand1: TppFooterBand
+      Background.Brush.Style = bsClear
+      mmBottomOffset = 0
+      mmHeight = 28840
+      mmPrintPosition = 0
+    end
+    object ppDesignLayers1: TppDesignLayers
+      object ppDesignLayer1: TppDesignLayer
+        UserName = 'Foreground'
+        LayerType = ltBanded
+        Index = 0
+      end
+    end
+    object ppParameterList1: TppParameterList
+    end
+  end
+end

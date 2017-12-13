@@ -1,0 +1,24 @@
+unit U_pdv_produtos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TF_pdv_produtos = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_pdv_produtos: TF_pdv_produtos;
+
+implementation
+
+{$R *.dfm}
+
+end.

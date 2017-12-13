@@ -1,0 +1,1227 @@
+object dm: Tdm
+  OldCreateOrder = False
+  Height = 443
+  Width = 621
+  object conexao: TFDConnection
+    Params.Strings = (
+      'Database=svendas'
+      'User_Name=root'
+      'Password=root'
+      'DriverID=MySQL')
+    Connected = True
+    LoginPrompt = False
+    Left = 40
+    Top = 16
+  end
+  object mysql_link: TFDPhysMySQLDriverLink
+    DriverID = 'MySql'
+    Left = 112
+    Top = 16
+  end
+  object WaitCursor: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 216
+    Top = 24
+  end
+  object SQL_produtos: TFDQuery
+    Connection = conexao
+    SQL.Strings = (
+      'select * from produtos')
+    Left = 32
+    Top = 80
+    object SQL_produtospro_id: TFDAutoIncField
+      FieldName = 'pro_id'
+      Origin = 'pro_id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object SQL_produtospro_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_nome'
+      Origin = 'pro_nome'
+      Size = 100
+    end
+    object SQL_produtospro_barras: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_barras'
+      Origin = 'pro_barras'
+    end
+    object SQL_produtospro_ref: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_ref'
+      Origin = 'pro_ref'
+    end
+    object SQL_produtospro_custo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_custo'
+      Origin = 'pro_custo'
+      DisplayFormat = ',0.00;-,0.00'
+    end
+    object SQL_produtospro_preco: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco'
+      Origin = 'pro_preco'
+      DisplayFormat = ',0.00;-,0.00'
+    end
+    object SQL_produtospro_preco_prazo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco_prazo'
+      Origin = 'pro_preco_prazo'
+      DisplayFormat = ',0.00;-,0.00'
+    end
+    object SQL_produtospro_estoque: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_estoque'
+      Origin = 'pro_estoque'
+    end
+  end
+  object ds_produtos: TDataSource
+    DataSet = SQL_produtos
+    Left = 104
+    Top = 80
+  end
+  object TB_produtos: TFDTable
+    IndexFieldNames = 'pro_id'
+    Connection = conexao
+    UpdateOptions.UpdateTableName = 'svendas.produtos'
+    TableName = 'svendas.produtos'
+    Left = 176
+    Top = 80
+    object TB_produtospro_id: TFDAutoIncField
+      FieldName = 'pro_id'
+      Origin = 'pro_id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object TB_produtospro_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_nome'
+      Origin = 'pro_nome'
+      Size = 100
+    end
+    object TB_produtospro_barras: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_barras'
+      Origin = 'pro_barras'
+    end
+    object TB_produtospro_ref: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_ref'
+      Origin = 'pro_ref'
+    end
+    object TB_produtospro_custo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_custo'
+      Origin = 'pro_custo'
+    end
+    object TB_produtospro_preco: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco'
+      Origin = 'pro_preco'
+    end
+    object TB_produtospro_preco_prazo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco_prazo'
+      Origin = 'pro_preco_prazo'
+    end
+    object TB_produtospro_estoque: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_estoque'
+      Origin = 'pro_estoque'
+    end
+  end
+  object Sql_clientes: TFDQuery
+    Connection = conexao
+    SQL.Strings = (
+      'select * from clientes')
+    Left = 40
+    Top = 144
+    object Sql_clientescli_id: TFDAutoIncField
+      FieldName = 'cli_id'
+      Origin = 'cli_id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object Sql_clientescli_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_nome'
+      Origin = 'cli_nome'
+      Size = 50
+    end
+    object Sql_clientescli_endereco: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_endereco'
+      Origin = 'cli_endereco'
+      Size = 100
+    end
+    object Sql_clientescli_numero: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_numero'
+      Origin = 'cli_numero'
+    end
+    object Sql_clientescli_bairro: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_bairro'
+      Origin = 'cli_bairro'
+      Size = 50
+    end
+    object Sql_clientescli_cidade: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_cidade'
+      Origin = 'cli_cidade'
+      Size = 50
+    end
+    object Sql_clientescli_fone: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_fone'
+      Origin = 'cli_fone'
+    end
+    object Sql_clientescli_celular: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_celular'
+      Origin = 'cli_celular'
+    end
+    object Sql_clientescli_rg: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_rg'
+      Origin = 'cli_rg'
+    end
+    object Sql_clientescli_cpf: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_cpf'
+      Origin = 'cli_cpf'
+    end
+    object Sql_clientescli_profissao: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_profissao'
+      Origin = 'cli_profissao'
+      Size = 50
+    end
+    object Sql_clientescli_data_nasc: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_data_nasc'
+      Origin = 'cli_data_nasc'
+    end
+  end
+  object TB_clientes: TFDTable
+    IndexFieldNames = 'cli_id'
+    Connection = conexao
+    UpdateOptions.UpdateTableName = 'svendas.clientes'
+    TableName = 'svendas.clientes'
+    Left = 176
+    Top = 144
+    object TB_clientescli_id: TFDAutoIncField
+      FieldName = 'cli_id'
+      Origin = 'cli_id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object TB_clientescli_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_nome'
+      Origin = 'cli_nome'
+      Size = 50
+    end
+    object TB_clientescli_endereco: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_endereco'
+      Origin = 'cli_endereco'
+      Size = 100
+    end
+    object TB_clientescli_numero: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_numero'
+      Origin = 'cli_numero'
+    end
+    object TB_clientescli_bairro: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_bairro'
+      Origin = 'cli_bairro'
+      Size = 50
+    end
+    object TB_clientescli_cidade: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_cidade'
+      Origin = 'cli_cidade'
+      Size = 50
+    end
+    object TB_clientescli_fone: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_fone'
+      Origin = 'cli_fone'
+    end
+    object TB_clientescli_celular: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_celular'
+      Origin = 'cli_celular'
+    end
+    object TB_clientescli_rg: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_rg'
+      Origin = 'cli_rg'
+    end
+    object TB_clientescli_cpf: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_cpf'
+      Origin = 'cli_cpf'
+    end
+    object TB_clientescli_profissao: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_profissao'
+      Origin = 'cli_profissao'
+      Size = 50
+    end
+    object TB_clientescli_data_nasc: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_data_nasc'
+      Origin = 'cli_data_nasc'
+    end
+  end
+  object ds_clientes: TDataSource
+    DataSet = Sql_clientes
+    Left = 104
+    Top = 144
+  end
+  object SQL_listarPedidos: TFDQuery
+    Active = True
+    OnCalcFields = SQL_listarPedidosCalcFields
+    Connection = conexao
+    SQL.Strings = (
+      'select * from view_listar_pedido')
+    Left = 296
+    Top = 136
+    object SQL_listarPedidosped_id: TFDAutoIncField
+      FieldName = 'ped_id'
+      Origin = 'ped_id'
+      ReadOnly = True
+    end
+    object SQL_listarPedidosped_data: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_data'
+      Origin = 'ped_data'
+    end
+    object SQL_listarPedidosped_codigo: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_codigo'
+      Origin = 'ped_codigo'
+    end
+    object SQL_listarPedidosped_cliente: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_cliente'
+      Origin = 'ped_cliente'
+    end
+    object SQL_listarPedidosped_usuario: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_usuario'
+      Origin = 'ped_usuario'
+    end
+    object SQL_listarPedidosped_forma_pag: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_forma_pag'
+      Origin = 'ped_forma_pag'
+    end
+    object SQL_listarPedidosped_fechado: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_fechado'
+      Origin = 'ped_fechado'
+      FixedChar = True
+      Size = 3
+    end
+    object SQL_listarPedidosped_faturado: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ped_faturado'
+      Origin = 'ped_faturado'
+      FixedChar = True
+      Size = 3
+    end
+    object SQL_listarPedidospro_id: TFDAutoIncField
+      FieldName = 'pro_id'
+      Origin = 'pro_id'
+      ReadOnly = True
+    end
+    object SQL_listarPedidospro_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_nome'
+      Origin = 'pro_nome'
+      Size = 100
+    end
+    object SQL_listarPedidospro_barras: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_barras'
+      Origin = 'pro_barras'
+    end
+    object SQL_listarPedidospro_ref: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_ref'
+      Origin = 'pro_ref'
+    end
+    object SQL_listarPedidospro_custo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_custo'
+      Origin = 'pro_custo'
+    end
+    object SQL_listarPedidospro_preco: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco'
+      Origin = 'pro_preco'
+      DisplayFormat = ',0.00;-,0.00'
+    end
+    object SQL_listarPedidospro_preco_prazo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_preco_prazo'
+      Origin = 'pro_preco_prazo'
+      DisplayFormat = ',0.00;-,0.00'
+    end
+    object SQL_listarPedidospro_estoque: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'pro_estoque'
+      Origin = 'pro_estoque'
+    end
+    object SQL_listarPedidositen_id: TFDAutoIncField
+      FieldName = 'iten_id'
+      Origin = 'iten_id'
+      ReadOnly = True
+    end
+    object SQL_listarPedidositen_produto: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_produto'
+      Origin = 'iten_produto'
+    end
+    object SQL_listarPedidositen_qtd: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_qtd'
+      Origin = 'iten_qtd'
+    end
+    object SQL_listarPedidositen_pedido: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_pedido'
+      Origin = 'iten_pedido'
+    end
+    object SQL_listarPedidositen_preco: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_preco'
+      Origin = 'iten_preco'
+    end
+    object SQL_listarPedidositen_preco_prazo: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'iten_preco_prazo'
+      Origin = 'iten_preco_prazo'
+    end
+    object SQL_listarPedidossubTotal: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'subTotal'
+      DisplayFormat = ',0.00;-,0.00'
+      Calculated = True
+    end
+    object SQL_listarPedidossubTotalPrazo: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'subTotalPrazo'
+      DisplayFormat = ',0.00;-,0.00'
+      Calculated = True
+    end
+    object SQL_listarPedidoscli_id: TFDAutoIncField
+      FieldName = 'cli_id'
+      Origin = 'cli_id'
+      ReadOnly = True
+    end
+    object SQL_listarPedidoscli_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_nome'
+      Origin = 'cli_nome'
+      Size = 50
+    end
+    object SQL_listarPedidoscli_endereco: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_endereco'
+      Origin = 'cli_endereco'
+      Size = 100
+    end
+    object SQL_listarPedidoscli_numero: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_numero'
+      Origin = 'cli_numero'
+    end
+    object SQL_listarPedidoscli_bairro: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_bairro'
+      Origin = 'cli_bairro'
+      Size = 50
+    end
+    object SQL_listarPedidoscli_cidade: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_cidade'
+      Origin = 'cli_cidade'
+      Size = 50
+    end
+    object SQL_listarPedidoscli_fone: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_fone'
+      Origin = 'cli_fone'
+    end
+    object SQL_listarPedidoscli_celular: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_celular'
+      Origin = 'cli_celular'
+    end
+    object SQL_listarPedidoscli_rg: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_rg'
+      Origin = 'cli_rg'
+    end
+    object SQL_listarPedidoscli_cpf: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_cpf'
+      Origin = 'cli_cpf'
+    end
+    object SQL_listarPedidoscli_profissao: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_profissao'
+      Origin = 'cli_profissao'
+      Size = 50
+    end
+    object SQL_listarPedidoscli_data_nasc: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'cli_data_nasc'
+      Origin = 'cli_data_nasc'
+    end
+    object SQL_listarPedidosforma_id: TFDAutoIncField
+      FieldName = 'forma_id'
+      Origin = 'forma_id'
+      ReadOnly = True
+    end
+    object SQL_listarPedidosforma_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'forma_nome'
+      Origin = 'forma_nome'
+      Size = 40
+    end
+    object SQL_listarPedidosuser_id: TFDAutoIncField
+      FieldName = 'user_id'
+      Origin = 'user_id'
+      ReadOnly = True
+    end
+    object SQL_listarPedidosuser_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'user_nome'
+      Origin = 'user_nome'
+      Size = 50
+    end
+    object SQL_listarPedidosuser_nome_completo: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'user_nome_completo'
+      Origin = 'user_nome_completo'
+      Size = 80
+    end
+    object SQL_listarPedidosuser_senha: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'user_senha'
+      Origin = 'user_senha'
+      Size = 40
+    end
+  end
+  object ds_listarPedidos: TDataSource
+    DataSet = SQL_listarPedidos
+    Left = 248
+    Top = 256
+  end
+  object ppDB_reciboPedido: TppDBPipeline
+    DataSource = ds_listarPedidos
+    UserName = 'DB_reciboPedido'
+    Left = 384
+    Top = 216
+  end
+  object Report_reciboPedido: TppReport
+    AutoStop = False
+    DataPipeline = ppDB_reciboPedido
+    PrinterSetup.BinName = 'Default'
+    PrinterSetup.DocumentName = 'Report'
+    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PrinterName = 'Default'
+    PrinterSetup.SaveDeviceSettings = False
+    PrinterSetup.mmMarginBottom = 6350
+    PrinterSetup.mmMarginLeft = 6350
+    PrinterSetup.mmMarginRight = 6350
+    PrinterSetup.mmMarginTop = 6350
+    PrinterSetup.mmPaperHeight = 297000
+    PrinterSetup.mmPaperWidth = 210000
+    PrinterSetup.PaperSize = 9
+    Template.FileName = 'C:\SVendas\report\report.rtm'
+    ArchiveFileName = '($MyDocuments)\ReportArchive.raf'
+    DeviceType = 'Screen'
+    DefaultFileDeviceType = 'PDF'
+    EmailSettings.ReportFormat = 'PDF'
+    LanguageID = 'Default'
+    OpenFile = False
+    OutlineSettings.CreateNode = True
+    OutlineSettings.CreatePageNodes = True
+    OutlineSettings.Enabled = True
+    OutlineSettings.Visible = True
+    ThumbnailSettings.Enabled = True
+    ThumbnailSettings.Visible = True
+    ThumbnailSettings.DeadSpace = 30
+    PDFSettings.EmbedFontOptions = [efUseSubset]
+    PDFSettings.EncryptSettings.AllowCopy = True
+    PDFSettings.EncryptSettings.AllowInteract = True
+    PDFSettings.EncryptSettings.AllowModify = True
+    PDFSettings.EncryptSettings.AllowPrint = True
+    PDFSettings.EncryptSettings.Enabled = False
+    PDFSettings.EncryptSettings.KeyLength = kl40Bit
+    PDFSettings.FontEncoding = feAnsi
+    PDFSettings.ImageCompressionLevel = 25
+    PreviewFormSettings.WindowState = wsMaximized
+    PreviewFormSettings.ZoomSetting = zsPageWidth
+    RTFSettings.DefaultFont.Charset = DEFAULT_CHARSET
+    RTFSettings.DefaultFont.Color = clWindowText
+    RTFSettings.DefaultFont.Height = -13
+    RTFSettings.DefaultFont.Name = 'Arial'
+    RTFSettings.DefaultFont.Style = []
+    TextFileName = '($MyDocuments)\Report.pdf'
+    TextSearchSettings.DefaultString = '<Texto a localizar>'
+    TextSearchSettings.Enabled = True
+    XLSSettings.AppName = 'ReportBuilder'
+    XLSSettings.Author = 'ReportBuilder'
+    XLSSettings.Subject = 'Report'
+    XLSSettings.Title = 'Report'
+    Left = 512
+    Top = 208
+    Version = '16.02'
+    mmColumnWidth = 0
+    DataPipelineName = 'ppDB_reciboPedido'
+    object ppHeaderBand1: TppHeaderBand
+      Background.Brush.Style = bsClear
+      mmBottomOffset = 0
+      mmHeight = 35190
+      mmPrintPosition = 0
+      object ppLabel1: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label1'
+        Caption = 'Minha Loja '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 18
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 7143
+        mmLeft = 3704
+        mmTop = 3440
+        mmWidth = 40746
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel2: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label2'
+        Caption = 'Produto'
+        Color = clWindow
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        FormField = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 1852
+        mmTop = 29369
+        mmWidth = 18521
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel3: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label3'
+        Caption = 'R$ Vista'
+        Color = clWindow
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        FormField = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 43656
+        mmTop = 29369
+        mmWidth = 21167
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel4: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label4'
+        Caption = 'R$ Prazo'
+        Color = clWindow
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        FormField = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 70644
+        mmTop = 29369
+        mmWidth = 21167
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel5: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label5'
+        Caption = 'QTD'
+        Color = clWindow
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        FormField = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        mmHeight = 5027
+        mmLeft = 96309
+        mmTop = 29369
+        mmWidth = 8996
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine1: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line1'
+        Weight = 0.750000000000000000
+        mmHeight = 265
+        mmLeft = 1852
+        mmTop = 33867
+        mmWidth = 157163
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel6: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label6'
+        Caption = 'Sub'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        FormField = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 122502
+        mmTop = 29369
+        mmWidth = 7938
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel7: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label7'
+        Caption = 'SubPrazo'
+        Color = clWindow
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        FormField = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 133879
+        mmTop = 29369
+        mmWidth = 21167
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine2: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line2'
+        Weight = 0.750000000000000000
+        mmHeight = 1058
+        mmLeft = 1852
+        mmTop = 27517
+        mmWidth = 157163
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel11: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label11'
+        AutoSize = False
+        Caption = 'Cliente:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 3704
+        mmTop = 16140
+        mmWidth = 20638
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppDBText8: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText8'
+        DataField = 'cli_nome'
+        DataPipeline = ppDB_reciboPedido
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 25929
+        mmTop = 16140
+        mmWidth = 65881
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel12: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label12'
+        Caption = 'Fone (xxx)xxxx-xxxx '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 18
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 7143
+        mmLeft = 84931
+        mmTop = 3440
+        mmWidth = 74084
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel13: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label13'
+        AutoSize = False
+        Caption = 'Fone'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 92869
+        mmTop = 16140
+        mmWidth = 15346
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppDBText9: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText9'
+        DataField = 'cli_fone'
+        DataPipeline = ppDB_reciboPedido
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 109009
+        mmTop = 16140
+        mmWidth = 50006
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel14: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label14'
+        AutoSize = False
+        Caption = 'Endere'#231'o'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 3704
+        mmTop = 22754
+        mmWidth = 24871
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppDBText10: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText10'
+        DataField = 'cli_endereco'
+        DataPipeline = ppDB_reciboPedido
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 30427
+        mmTop = 22754
+        mmWidth = 128588
+        BandType = 0
+        LayerName = Foreground
+      end
+    end
+    object ppDetailBand1: TppDetailBand
+      Background1.Brush.Style = bsClear
+      Background2.Brush.Style = bsClear
+      mmBottomOffset = 0
+      mmHeight = 7144
+      mmPrintPosition = 0
+      object ppDBText1: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText1'
+        DataField = 'pro_nome'
+        DataPipeline = ppDB_reciboPedido
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 9
+        Font.Style = []
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 3704
+        mmTop = 794
+        mmWidth = 43656
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText2: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText2'
+        DataField = 'iten_preco'
+        DataPipeline = ppDB_reciboPedido
+        DisplayFormat = ',0.00;-,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 9
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 48948
+        mmTop = 794
+        mmWidth = 23283
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText3: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText3'
+        DataField = 'iten_preco_prazo'
+        DataPipeline = ppDB_reciboPedido
+        DisplayFormat = ',0.00;-,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 9
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 73819
+        mmTop = 794
+        mmWidth = 21696
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText4: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText4'
+        DataField = 'iten_qtd'
+        DataPipeline = ppDB_reciboPedido
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 9
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 96573
+        mmTop = 794
+        mmWidth = 11642
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText5: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText5'
+        DataField = 'subTotal'
+        DataPipeline = ppDB_reciboPedido
+        DisplayFormat = ',0.00;-,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 9
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 109009
+        mmTop = 794
+        mmWidth = 21431
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText6: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText6'
+        DataField = 'subTotalPrazo'
+        DataPipeline = ppDB_reciboPedido
+        DisplayFormat = ',0.00;-,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 9
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 133879
+        mmTop = 794
+        mmWidth = 21167
+        BandType = 4
+        LayerName = Foreground
+      end
+    end
+    object ppFooterBand1: TppFooterBand
+      Background.Brush.Style = bsClear
+      mmBottomOffset = 0
+      mmHeight = 13229
+      mmPrintPosition = 0
+    end
+    object ppSummaryBand1: TppSummaryBand
+      Background.Brush.Style = bsClear
+      mmBottomOffset = 0
+      mmHeight = 23019
+      mmPrintPosition = 0
+      object ppLine3: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line3'
+        Weight = 0.750000000000000000
+        mmHeight = 794
+        mmLeft = 265
+        mmTop = 791
+        mmWidth = 158750
+        BandType = 7
+        LayerName = Foreground
+      end
+      object ppLabel8: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label8'
+        Caption = 'Total a Vista '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 5556
+        mmTop = 3704
+        mmWidth = 37042
+        BandType = 7
+        LayerName = Foreground
+      end
+      object ppLabel9: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label9'
+        Caption = 'Total a Prazo '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 53446
+        mmTop = 2646
+        mmWidth = 37042
+        BandType = 7
+        LayerName = Foreground
+      end
+      object ppDBCalc1: TppDBCalc
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBCalc1'
+        DataField = 'subTotal'
+        DataPipeline = ppDB_reciboPedido
+        DisplayFormat = ',0.00;-,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4498
+        mmLeft = 1852
+        mmTop = 8996
+        mmWidth = 40746
+        BandType = 7
+        LayerName = Foreground
+      end
+      object ppDBCalc2: TppDBCalc
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBCalc2'
+        DataField = 'subTotalPrazo'
+        DataPipeline = ppDB_reciboPedido
+        DisplayFormat = ',0.00;-,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4498
+        mmLeft = 49742
+        mmTop = 8996
+        mmWidth = 40746
+        BandType = 7
+        LayerName = Foreground
+      end
+      object ppDBText7: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText7'
+        DataField = 'forma_nome'
+        DataPipeline = ppDB_reciboPedido
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 96309
+        mmTop = 8996
+        mmWidth = 33602
+        BandType = 7
+        LayerName = Foreground
+      end
+      object ppLabel10: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label10'
+        Caption = 'Forma de Pag '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 96309
+        mmTop = 2646
+        mmWidth = 34396
+        BandType = 7
+        LayerName = Foreground
+      end
+      object ppLabel15: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label15'
+        AutoSize = False
+        Caption = 'Vendedor'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        FormField = False
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 132027
+        mmTop = 2646
+        mmWidth = 21696
+        BandType = 7
+        LayerName = Foreground
+      end
+      object ppDBText11: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText11'
+        DataField = 'user_nome'
+        DataPipeline = ppDB_reciboPedido
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Courier New'
+        Font.Size = 12
+        Font.Style = []
+        Transparent = True
+        DataPipelineName = 'ppDB_reciboPedido'
+        mmHeight = 4763
+        mmLeft = 132027
+        mmTop = 8996
+        mmWidth = 30692
+        BandType = 7
+        LayerName = Foreground
+      end
+    end
+    object ppDesignLayers1: TppDesignLayers
+      object ppDesignLayer1: TppDesignLayer
+        UserName = 'Foreground'
+        LayerType = ltBanded
+        Index = 0
+      end
+    end
+    object ppParameterList1: TppParameterList
+    end
+  end
+  object SQL_formaPag: TFDQuery
+    Connection = conexao
+    SQL.Strings = (
+      'select * from forma')
+    Left = 376
+    Top = 120
+    object SQL_formaPagforma_id: TFDAutoIncField
+      FieldName = 'forma_id'
+      Origin = 'forma_id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object SQL_formaPagforma_nome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'forma_nome'
+      Origin = 'forma_nome'
+      Size = 40
+    end
+  end
+  object ds_formaPag: TDataSource
+    DataSet = SQL_formaPag
+    Left = 472
+    Top = 120
+  end
+end

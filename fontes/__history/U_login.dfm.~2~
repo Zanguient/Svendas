@@ -1,0 +1,84 @@
+object F_login: TF_login
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Login do sistema'
+  ClientHeight = 172
+  ClientWidth = 298
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 32
+    Top = 26
+    Width = 48
+    Height = 18
+    Caption = 'Usuario'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 32
+    Top = 85
+    Width = 40
+    Height = 18
+    Caption = 'Senha'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object btn_entrar: TSpeedButton
+    Left = 193
+    Top = 141
+    Width = 103
+    Height = 30
+    Caption = 'Entrar'
+  end
+  object btn_sair: TSpeedButton
+    Left = 18
+    Top = 142
+    Width = 97
+    Height = 29
+    Caption = 'Sair'
+  end
+  object txt_nome: TEdit
+    Left = 86
+    Top = 23
+    Width = 169
+    Height = 26
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+  end
+  object txt_senha: TEdit
+    Left = 86
+    Top = 82
+    Width = 169
+    Height = 26
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+  end
+end

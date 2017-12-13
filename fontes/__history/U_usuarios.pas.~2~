@@ -1,0 +1,30 @@
+unit U_usuarios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.ComCtrls;
+
+type
+  TF_usuarios = class(TForm)
+    pag_geral: TPageControl;
+    Tab_cadastrar: TTabSheet;
+    tb_controle: TTabSheet;
+    Image1: TImage;
+    Image2: TImage;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_usuarios: TF_usuarios;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,76 @@
+object F_pdv_produtos: TF_pdv_produtos
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Pesquisar Produtos'
+  ClientHeight = 406
+  ClientWidth = 477
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 16
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 72
+    Width = 477
+    Height = 334
+    Align = alBottom
+    DataSource = dm.ds_produtos
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'pro_nome'
+        Title.Caption = 'Produto'
+        Width = 211
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'pro_preco'
+        Title.Caption = 'Pre'#231'o'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'pro_preco_prazo'
+        Title.Caption = 'Prazo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'pro_estoque'
+        Title.Caption = 'Estoque'
+        Visible = True
+      end>
+  end
+  object txt_buscar: TEdit
+    Left = 0
+    Top = 42
+    Width = 305
+    Height = 24
+    CharCase = ecUpperCase
+    Ctl3D = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentCtl3D = False
+    ParentFont = False
+    TabOrder = 1
+    OnKeyPress = txt_buscarKeyPress
+  end
+end

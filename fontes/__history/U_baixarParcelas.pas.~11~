@@ -1,0 +1,288 @@
+unit U_baixarParcelas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask, RxToolEdit, RxCurrEdit, Vcl.Buttons;
+
+type
+  TF_baixarParcelas = class(TForm)
+    Panel1: TPanel;
+    DBG_listarLancamentos: TDBGrid;
+    txt_valorVista: TCurrencyEdit;
+    txt_valorPrazo: TCurrencyEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    txt_buscarCliente: TEdit;
+    Label3: TLabel;
+    txt_buscarCodVenda: TEdit;
+    Label4: TLabel;
+    btn_listarTodos: TSpeedButton;
+    btn_imprimirPedido: TSpeedButton;
+    DBG_listarParcelas: TDBGrid;
+    btn_gerarParcelas: TSpeedButton;
+    txt_parcelasQtd: TCurrencyEdit;
+    btn_parcelasApagar: TSpeedButton;
+    btn_parcelasImprimir: TSpeedButton;
+    Button1: TButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure procedureMostrarPedido;
+    procedure DBG_listarLancamentosCellClick(Column: TColumn);
+    procedure btn_imprimirPedidoClick(Sender: TObject);
+    procedure txt_buscarClienteKeyPress(Sender: TObject; var Key: Char);
+    procedure txt_buscarCodVendaKeyPress(Sender: TObject; var Key: Char);
+    procedure btn_listarTodosClick(Sender: TObject);
+    procedure btn_gerarParcelasClick(Sender: TObject);
+    procedure btn_parcelasImprimirClick(Sender: TObject);
+    procedure btn_parcelasApagarClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+    var TOTAL_VISTA,TOTAL_PRAZO: Double;
+    var CODIGO_VENDA: string;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  F_baixarParcelas: TF_baixarParcelas;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm, U_lancamentos;
+
+procedure TF_baixarParcelas.procedureMostrarPedido;
+begin
+ // procedimento para mostrar pedido adicionado
+
+   TOTAL_VISTA:= 0;
+   TOTAL_PRAZO:= 0;
+   CODIGO_VENDA:= dm.SQL_listarLancamentosped_codigo.AsString;
+   // executo a SQL de listar pedidos com itens
+   //executo a sql de lista pedido para filtrar atual
+    with dm.SQL_listarPedidos do
+    begin
+     Close;
+     SQL.Clear;
+     SQL.Add('select * from view_listar_pedido');
+     SQL.Add('where ped_codigo = :codigo');
+     ParamByName('codigo').Value:= CODIGO_VENDA;
+     Open;
+    end;
+   //---------------
+    dm.SQL_listarPedidos.First;
+
+    while not dm.SQL_listarPedidos.Eof do
+    begin
+     TOTAL_VISTA:= TOTAL_VISTA + dm.SQL_listarPedidossubTotal.Value;
+     TOTAL_PRAZO:= TOTAL_PRAZO + dm.SQL_listarPedidossubTotalPrazo.Value;
+    dm.SQL_listarPedidos.Next;
+    end;
+    txt_valorVista.Value:= TOTAL_VISTA;
+    txt_valorPrazo.Value:= TOTAL_PRAZO;
+end;
+
+procedure TF_baixarParcelas.txt_buscarClienteKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+// procurar pedido por cliente
+    if Key =#13 then
+    begin
+     //faço a query pelo cliente digitado
+    with dm.SQL_listarLancamentos_baixarParcelas do
+        begin
+        Close;
+        SQL.Clear;
+        SQL.Add('select * from view_baixar_parcelas');
+        SQL.Add('where cli_nome like :nome');
+
+       
+        ParamByName('nome').Value:= txt_buscarCliente.Text + '%';
+        Open;
+           //caso nao econtrar o cliente digitado
+           if RecordCount= 0  then
+           begin
+        ShowMessage('Cliente nao econtrado');
+        btn_listarTodos.Click;
+        end;
+
+
+        end;
+
+
+
+    end;
+
+
+end;
+
+procedure TF_baixarParcelas.txt_buscarCodVendaKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if Key =#13 then
+    begin
+     //faço a query pelo codigo digitado
+    with dm.SQL_listarLancamentos_baixarParcelas do
+        begin
+        Close;
+        SQL.Clear;
+        SQL.Add('select * from view_baixar_parcelas');
+        SQL.Add('where ped_codigo = :cod');
+        ParamByName('cod').Value:= txt_buscarCodVenda.Text;
+        Open;
+        
+           //caso nao econtrar o cliente digitado
+           if RecordCount= 0  then
+           begin
+           btn_listarTodos.Click;
+
+        end;
+
+
+        end;
+
+
+
+    end;
+
+end;
+
+procedure TF_baixarParcelas.btn_gerarParcelasClick(Sender: TObject);
+var TOTAL_PARCELAS,ATUAL_PARCELA : Integer;
+
+begin
+  //sql que verifica a parcela se ja existe
+   with dm.SQL_parcelasProntas do
+     begin
+      Close;
+      SQL.clear ;
+      SQL.Add('select * from view_parcelas_prontas');
+      SQL.Add('where parc_cod_carne = :cod');
+      ParamByName('cod').Value:= CODIGO_VENDA;
+      Open;
+        if RecordCount > 0 then
+        begin
+
+
+        ShowMessage('Esse carne ja existe, pode fazer a impressao caso queira');
+        Exit;
+     end;
+       end;
+  // rotina para gerar as parcelas
+
+  // verifico se digitou a QTD de parcelas
+  if txt_parcelasQtd.Value <1 then
+  begin
+    ShowMessage('Digite a QTD de parcelas');
+    txt_parcelasQtd.SetFocus;
+    txt_parcelasQtd.Color:= clYellow;
+    Exit;
+  end;
+
+   TOTAL_PARCELAS:= StrToInt(txt_parcelasQtd.Text);
+   ATUAL_PARCELA:= 0;
+     // inserindo parcelas no banco
+     dm.TB_gerarParcelas.Active:= true ;
+     while ATUAL_PARCELA < TOTAL_PARCELAS do
+     begin
+     ATUAL_PARCELA:= ATUAL_PARCELA+1;
+     dm.TB_gerarParcelas.Insert;
+     dm.TB_gerarParcelasparc_cod_carne.Value:= dm.SQL_listarLancamentosped_codigo.Value;
+     dm.TB_gerarParcelasparc_numero.Value:= ATUAL_PARCELA;
+     dm.TB_gerarParcelasparc_valor.Value:= (txt_valorPrazo.Value/ TOTAL_PARCELAS);
+     dm.TB_gerarParcelasparc_vence.Value:= IncMonth(Date,ATUAL_PARCELA);
+     dm.TB_gerarParcelasparc_pago.Value:= 'NAO';
+     dm.TB_gerarParcelas.Post;
+     end;
+     //
+     ShowMessage('Parcelas Gerada com Sucesso');
+     //refresh na tabela ou query
+     dm.SQL_parcelasProntas.Close;
+     dm.SQL_parcelasProntas.open;
+end;
+
+procedure TF_baixarParcelas.btn_imprimirPedidoClick(Sender: TObject);
+begin
+ //imprimi o pedido
+  dm.Report_reciboPedido.PrintReport;
+end;
+
+procedure TF_baixarParcelas.btn_listarTodosClick(Sender: TObject);
+begin
+  //faço a query pelo codigo digitado
+    with dm.SQL_listarLancamentos_baixarParcelas do
+        begin
+        Close;
+        SQL.Clear;
+        SQL.Add('select * from view_baixar_parcelas');
+         Open;
+
+end;
+ procedureMostrarPedido;
+ //teste kel
+ dm.SQL_parcelasProntas.Close;
+   dm.SQL_parcelasProntas.Open;
+ //--------
+end;
+procedure TF_baixarParcelas.btn_parcelasApagarClick(Sender: TObject);
+begin
+ //cancelando as parcelas
+ with dm.SQL_cancela do
+ begin
+   Close;
+   SQL.Clear;
+   SQL.Add('delete  from parcelas');
+   SQL.Add('where parc_cod_carne = :cod');
+   ParamByName('cod').Value:= CODIGO_VENDA;
+   ExecSQL;
+   ShowMessage('Parcelas Canceladas com Sucesso');
+   dm.SQL_parcelasProntas.Close;
+   dm.SQL_parcelasProntas.Open;
+
+
+ end;
+end;
+
+procedure TF_baixarParcelas.btn_parcelasImprimirClick(Sender: TObject);
+begin
+ // impressao do carne
+ dm.LB_nome_cliente.Caption:= dm.SQL_listarLancamentoscli_nome.AsString;
+ dm.Report_parcelasProntas.PrintReport;
+end;
+
+procedure TF_baixarParcelas.Button1Click(Sender: TObject);
+begin
+  //teste kel
+
+   with dm.SQL_parcelasProntas do
+     begin
+      Close;
+      SQL.clear ;
+      SQL.Add('select * from view_parcelas_prontas');
+      SQL.Add('where parc_cod_carne = :cod');
+      ParamByName('cod').Value:= CODIGO_VENDA;
+      Open;
+end;
+end;
+procedure TF_baixarParcelas.DBG_listarLancamentosCellClick(Column: TColumn);
+begin
+   // atualizo os dados dos itens
+   procedureMostrarPedido;
+
+
+end;
+
+procedure TF_baixarParcelas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+F_baixarParcelas:= nil;
+end;
+
+end.

@@ -1,0 +1,141 @@
+unit U_clientes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Imaging.jpeg, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.DBActns, System.Actions, Vcl.ActnList, Vcl.PlatformDefaultStyleActnCtrls,
+  Vcl.ActnMan, Vcl.Buttons;
+
+type
+  TF_clientes = class(TForm)
+    page_clientes: TPageControl;
+    Tab_consultar: TTabSheet;
+    Tab_cadastrar: TTabSheet;
+    Image1: TImage;
+    Image2: TImage;
+    DBG_clientes: TDBGrid;
+    txt_buscar: TEdit;
+    btn_novo: TSpeedButton;
+    btn_editar: TSpeedButton;
+    btn_ok: TSpeedButton;
+    btn_cancelar: TSpeedButton;
+    btn_delete: TSpeedButton;
+    acm_clientes: TActionManager;
+    ac_insert: TDataSetInsert;
+    ac_delete: TDataSetDelete;
+    ac_editar: TDataSetEdit;
+    ac_ok: TDataSetPost;
+    ac_cancelar: TDataSetCancel;
+    Label1: TLabel;
+    DBEdit1: TDBEdit;
+    Ds_clientesCadastrar: TDataSource;
+    Label2: TLabel;
+    DBEdit2: TDBEdit;
+    Label3: TLabel;
+    DBEdit3: TDBEdit;
+    Label4: TLabel;
+    DBEdit4: TDBEdit;
+    Label5: TLabel;
+    DBEdit5: TDBEdit;
+    Label6: TLabel;
+    DBEdit6: TDBEdit;
+    Label7: TLabel;
+    DBEdit7: TDBEdit;
+    Label8: TLabel;
+    DBEdit8: TDBEdit;
+    Label9: TLabel;
+    DBEdit9: TDBEdit;
+    Label10: TLabel;
+    DBEdit10: TDBEdit;
+    Label11: TLabel;
+    DBEdit11: TDBEdit;
+    btn_editarCliente: TSpeedButton;
+    Label12: TLabel;
+    DBNavigator1: TDBNavigator;
+    DBGrid1: TDBGrid;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure txt_buscarKeyPress(Sender: TObject; var Key: Char);
+    procedure FormCreate(Sender: TObject);
+    procedure btn_editarClienteClick(Sender: TObject);
+    procedure DBG_clientesDblClick(Sender: TObject);
+    procedure ac_okExecute(Sender: TObject);
+    procedure btn_deleteClick(Sender: TObject);
+    procedure btn_cancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_clientes: TF_clientes;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm, U_funcoes;
+
+procedure TF_clientes.ac_okExecute(Sender: TObject);
+begin
+   ShowMessage('gravado com sucesso');
+
+
+end;
+
+procedure TF_clientes.btn_cancelarClick(Sender: TObject);
+begin
+ShowMessage('cancelado co sucesso');
+end;
+
+procedure TF_clientes.btn_deleteClick(Sender: TObject);
+begin
+  if messagedlg('deseja apagar o registro?',mtconfirmation,[mbyes,mbno],0)= mryes then
+  ac_delete.Execute;
+end;
+
+procedure TF_clientes.btn_editarClienteClick(Sender: TObject);
+begin
+dm.TB_clientes.Locate('cli_id',dm.Sql_clientescli_id.Value,[]);
+page_clientes.ActivePage:= Tab_cadastrar;
+end;
+
+procedure TF_clientes.DBG_clientesDblClick(Sender: TObject);
+begin
+btn_editarCliente.Click;
+end;
+
+procedure TF_clientes.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+F_clientes:= nil;
+end;
+
+procedure TF_clientes.FormCreate(Sender: TObject);
+begin
+  dm.TB_clientes.Active:= true;
+end;
+
+procedure TF_clientes.txt_buscarKeyPress(Sender: TObject; var Key: Char);
+begin
+  //
+  if key = #13 then
+begin
+  with dm.Sql_clientes  do
+  begin
+    Close;
+    SQL.Clear;
+    sql.Add('Select * from clientes');
+    SQL.Add('where cli_nome like :nome');
+    ParamByName('nome').Value:= txt_buscar.Text+'%';
+    Open;
+    if RecordCount= 0 then
+    ShowMessage('Cliente não encontrado');
+
+  end;
+end;
+end;
+
+end.

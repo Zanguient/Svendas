@@ -1,0 +1,91 @@
+unit U_usuarios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.ComCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.Buttons;
+
+type
+  TF_usuarios = class(TForm)
+    pag_geral: TPageControl;
+    Tab_cadastrar: TTabSheet;
+    tb_controle: TTabSheet;
+    Image1: TImage;
+    Image2: TImage;
+    TB_usuario: TFDTable;
+    TB_usuariouser_id: TFDAutoIncField;
+    TB_usuariouser_nome: TStringField;
+    TB_usuariouser_nome_completo: TStringField;
+    TB_usuariouser_senha: TStringField;
+    DataSource1: TDataSource;
+    Image3: TImage;
+    Label1: TLabel;
+    DBEdit1: TDBEdit;
+    Label2: TLabel;
+    DBEdit2: TDBEdit;
+    Label3: TLabel;
+    DBEdit3: TDBEdit;
+    DBGrid1: TDBGrid;
+    btn_novo: TSpeedButton;
+    btn_editar: TSpeedButton;
+    btn_gravar: TSpeedButton;
+    btn_cancelar: TSpeedButton;
+    btn_apagar: TSpeedButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btn_novoClick(Sender: TObject);
+    procedure btn_editarClick(Sender: TObject);
+    procedure btn_gravarClick(Sender: TObject);
+    procedure btn_cancelarClick(Sender: TObject);
+    procedure btn_apagarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_usuarios: TF_usuarios;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm;
+
+procedure TF_usuarios.btn_apagarClick(Sender: TObject);
+begin
+TB_usuario.Delete;
+end;
+
+procedure TF_usuarios.btn_cancelarClick(Sender: TObject);
+begin
+TB_usuario.Cancel;
+end;
+
+procedure TF_usuarios.btn_editarClick(Sender: TObject);
+begin
+TB_usuario.Edit;
+end;
+
+procedure TF_usuarios.btn_gravarClick(Sender: TObject);
+begin
+TB_usuario.Post;
+end;
+
+procedure TF_usuarios.btn_novoClick(Sender: TObject);
+begin
+TB_usuario.Insert;
+end;
+
+procedure TF_usuarios.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+f_usuarios:= nil;
+end;
+
+end.

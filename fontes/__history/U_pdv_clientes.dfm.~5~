@@ -1,0 +1,73 @@
+object F_pdv_clientes: TF_pdv_clientes
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Pesquisar Cliente'
+  ClientHeight = 427
+  ClientWidth = 538
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 16
+  object btn_clienteOK: TSpeedButton
+    Left = 464
+    Top = 8
+    Width = 74
+    Height = 58
+    Caption = 'OK'
+    OnClick = btn_clienteOKClick
+  end
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 121
+    Height = 16
+    Caption = 'Pesquisa pelo Cliente'
+  end
+  object dbgrdDBG_ClientesListar: TDBGrid
+    Left = 0
+    Top = 72
+    Width = 538
+    Height = 355
+    Align = alBottom
+    DataSource = dm.ds_clientes
+    Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnDblClick = dbgrdDBG_ClientesListarDblClick
+    OnKeyPress = dbgrdDBG_ClientesListarKeyPress
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'cli_id'
+        Title.Caption = 'Codigo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'cli_nome'
+        Title.Caption = 'Nome'
+        Visible = True
+      end>
+  end
+  object txt_buscarCliente: TEdit
+    Left = 8
+    Top = 30
+    Width = 193
+    Height = 24
+    CharCase = ecUpperCase
+    TabOrder = 0
+    OnKeyPress = txt_buscarClienteKeyPress
+  end
+end

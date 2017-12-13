@@ -1,0 +1,281 @@
+object F_produtos: TF_produtos
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Cadastro e controle de produtos'
+  ClientHeight = 469
+  ClientWidth = 774
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 16
+  object stb_produtos: TStatusBar
+    Left = 0
+    Top = 450
+    Width = 774
+    Height = 19
+    Panels = <>
+  end
+  object page_produtos: TPageControl
+    Left = 0
+    Top = 0
+    Width = 774
+    Height = 450
+    ActivePage = tab_consultar
+    Align = alClient
+    TabOrder = 1
+    TabWidth = 200
+    object tab_consultar: TTabSheet
+      Caption = 'Consultar'
+      ExplicitLeft = 8
+      ExplicitTop = 25
+      object Image1: TImage
+        Left = 0
+        Top = 0
+        Width = 766
+        Height = 80
+        Align = alClient
+        Picture.Data = {
+          0A544A504547496D6167650B030000FFD8FFE000104A46494600010101006000
+          600000FFE1005A4578696600004D4D002A000000080005030100050000000100
+          00004A0303000100000001000000005110000100000001010000005111000400
+          00000100000EC3511200040000000100000EC300000000000186A00000B18FFF
+          DB00430002010102010102020202020202020305030303030306040403050706
+          07070706070708090B0908080A0807070A0D0A0A0B0C0C0C0C07090E0F0D0C0E
+          0B0C0C0CFFDB004301020202030303060303060C0807080C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0CFFC00011080030004203012200021101031101FFC4001F
+          0000010501010101010100000000000000000102030405060708090A0BFFC400
+          B5100002010303020403050504040000017D0102030004110512213141061351
+          6107227114328191A1082342B1C11552D1F02433627282090A161718191A2526
+          2728292A3435363738393A434445464748494A535455565758595A6364656667
+          68696A737475767778797A838485868788898A92939495969798999AA2A3A4A5
+          A6A7A8A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DA
+          E1E2E3E4E5E6E7E8E9EAF1F2F3F4F5F6F7F8F9FAFFC4001F0100030101010101
+          010101010000000000000102030405060708090A0BFFC400B511000201020404
+          0304070504040001027700010203110405213106124151076171132232810814
+          4291A1B1C109233352F0156272D10A162434E125F11718191A262728292A3536
+          3738393A434445464748494A535455565758595A636465666768696A73747576
+          7778797A82838485868788898A92939495969798999AA2A3A4A5A6A7A8A9AAB2
+          B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE2E3E4E5E6E7
+          E8E9EAF2F3F4F5F6F7F8F9FAFFDA000C03010002110311003F00FDBCA28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2803FFD9}
+        Stretch = True
+        ExplicitLeft = 264
+        ExplicitTop = 3
+        ExplicitWidth = 105
+        ExplicitHeight = 105
+      end
+      object Label1: TLabel
+        Left = 217
+        Top = 3
+        Width = 123
+        Height = 18
+        Caption = 'Pesquisar Produtos'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object DBG_produtos: TDBGrid
+        Left = 0
+        Top = 80
+        Width = 766
+        Height = 339
+        Align = alBottom
+        DataSource = dm.ds_produtos
+        Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -13
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'pro_id'
+            Title.Caption = 'ID'
+            Title.Color = clBlack
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_nome'
+            Title.Caption = 'PRODUTOS'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 250
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_barras'
+            Title.Caption = 'BARRAS'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_ref'
+            Title.Caption = 'REF'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_custo'
+            Title.Caption = 'R$ CUSTO'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 64
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_preco'
+            Title.Caption = 'R$ PRE'#199'O'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 64
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_preco_prazo'
+            Title.Caption = 'R$ PRAZO'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 64
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'pro_estoque'
+            Title.Caption = 'QTD'
+            Title.Color = 16744448
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clBlue
+            Title.Font.Height = -13
+            Title.Font.Name = 'Tahoma'
+            Title.Font.Style = []
+            Width = 64
+            Visible = True
+          end>
+      end
+      object txt_busca: TEdit
+        Left = 217
+        Top = 34
+        Width = 217
+        Height = 25
+        CharCase = ecUpperCase
+        Ctl3D = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentCtl3D = False
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = txt_buscaKeyPress
+      end
+      object rg_buscar: TRadioGroup
+        Left = 16
+        Top = 3
+        Width = 177
+        Height = 56
+        Items.Strings = (
+          'Por Nome'
+          'Por Barras')
+        TabOrder = 2
+      end
+    end
+    object tab_cadastrar: TTabSheet
+      Caption = 'Cadastrar / Editar'
+      ImageIndex = 1
+      object Image2: TImage
+        Left = 0
+        Top = 0
+        Width = 766
+        Height = 419
+        Align = alClient
+        Picture.Data = {
+          0A544A504547496D6167650B030000FFD8FFE000104A46494600010101006000
+          600000FFE1005A4578696600004D4D002A000000080005030100050000000100
+          00004A0303000100000001000000005110000100000001010000005111000400
+          00000100000EC3511200040000000100000EC300000000000186A00000B18FFF
+          DB00430002010102010102020202020202020305030303030306040403050706
+          07070706070708090B0908080A0807070A0D0A0A0B0C0C0C0C07090E0F0D0C0E
+          0B0C0C0CFFDB004301020202030303060303060C0807080C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C
+          0C0C0C0C0C0C0C0C0CFFC00011080030004203012200021101031101FFC4001F
+          0000010501010101010100000000000000000102030405060708090A0BFFC400
+          B5100002010303020403050504040000017D0102030004110512213141061351
+          6107227114328191A1082342B1C11552D1F02433627282090A161718191A2526
+          2728292A3435363738393A434445464748494A535455565758595A6364656667
+          68696A737475767778797A838485868788898A92939495969798999AA2A3A4A5
+          A6A7A8A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DA
+          E1E2E3E4E5E6E7E8E9EAF1F2F3F4F5F6F7F8F9FAFFC4001F0100030101010101
+          010101010000000000000102030405060708090A0BFFC400B511000201020404
+          0304070504040001027700010203110405213106124151076171132232810814
+          4291A1B1C109233352F0156272D10A162434E125F11718191A262728292A3536
+          3738393A434445464748494A535455565758595A636465666768696A73747576
+          7778797A82838485868788898A92939495969798999AA2A3A4A5A6A7A8A9AAB2
+          B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE2E3E4E5E6E7
+          E8E9EAF2F3F4F5F6F7F8F9FAFFDA000C03010002110311003F00FDBCA28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800A28A2800
+          A28A2800A28A2800A28A2800A28A2800A28A2800A28A2803FFD9}
+        Stretch = True
+        ExplicitLeft = 264
+        ExplicitTop = 3
+        ExplicitWidth = 105
+        ExplicitHeight = 105
+      end
+    end
+  end
+end

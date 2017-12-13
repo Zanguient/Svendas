@@ -1,0 +1,4 @@
+SELECT * FROM pedidos d, itens i, produtos p, clientes c, forma f, usuarios u
+
+  where c.cli_id = d.ped_cliente AND i.iten_pedido = d.ped_codigo and d.ped_forma_pag = f.forma_id
+  AND i.iten_produto = p.pro_id AND d.ped_usuario = u.user_id

@@ -1,0 +1,70 @@
+unit U_produtos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls,
+  Vcl.StdCtrls, Vcl.Imaging.jpeg, Vcl.ExtCtrls;
+
+type
+  TF_produtos = class(TForm)
+    stb_produtos: TStatusBar;
+    page_produtos: TPageControl;
+    tab_consultar: TTabSheet;
+    tab_cadastrar: TTabSheet;
+    DBG_produtos: TDBGrid;
+    Image1: TImage;
+    Label1: TLabel;
+    Image2: TImage;
+    txt_busca: TEdit;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure txt_buscaKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_produtos: TF_produtos;
+
+implementation
+
+{$R *.dfm}
+
+uses U_dm;
+
+procedure TF_produtos.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+F_produtos:= nil;
+end;
+
+procedure TF_produtos.FormCreate(Sender: TObject);
+begin
+//
+  dm.SQL_produtos.Open;
+end;
+
+procedure TF_produtos.txt_buscaKeyPress(Sender: TObject; var Key: Char);
+begin
+   //fazendo a busca
+   if Key = #13 then
+    begin
+      with dm.SQL_produtos  do
+        begin
+           Close;
+           SQL.Clear;
+           SQL.Add('select * from produtos');
+           SQL.Add('where pro_nome like :nome');
+           ParamByName('nome').Value:= txt_busca.Text + '%';
+           Open;
+           if RecordCount= 0 then
+           ShowMessage('Produto não encontrado');
+
+        end;
+    end; //fim do key press
+end;
+
+end.
